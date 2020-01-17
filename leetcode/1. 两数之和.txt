@@ -1,0 +1,17 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        map<int,int> hashmap;
+        vector<int> res;
+        for(int i = 0,t; i <nums.size();i++){
+            t = target - nums[i];
+            if(hashmap.count(t)!=0){
+                res.push_back(hashmap[t]);
+                res.push_back(i);
+                return res;
+            }
+            hashmap[nums[i]]=i;
+        }
+        return {};
+    }
+};
