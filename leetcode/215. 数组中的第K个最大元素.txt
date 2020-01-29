@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {	//法一:直接调用sort函数 
+        sort(nums.begin(),nums.end());
+        return nums[nums.size()-k];
+    }
+};
+
+/*
+class Solution {
+public:
+	int Partition(vector<int>& nums,int left,int right){	//快排的每一轮
+		int temp = nums[left];
+		while(left < right){
+			while(left<right && nums[right]>=temp)
+				right--;
+			nums[left]=nums[right];
+			while(left<right && nums[left]<=temp)
+				left++;
+			nums[right] = nums[left];
+		}
+		nums[left] = temp;
+		return left;    //left左边的数字比left小
+	}
+	
+	int Select(vector<int>& nums,int left,int right,int k){	//返回第K大的元素
+		int p = Partition(nums,left,right);
+		int m = right-p+1;   //p是left-right中第m大
+		if(m==k)
+			return nums[p];
+		if(k>m){	//第k大的元素在p的左边
+			return Select(nums,left,p-1,k-m);
+		}else{	//第k大的元素在p的右边。
+			return Select(nums,p+1,right,k);
+		}
+	}
+	
+    int findKthLargest(vector<int>& nums, int k) {	//法二:快排的思想 
+		return Select(nums,0,nums.size()-1,k);
+    }
+};*/
+	
