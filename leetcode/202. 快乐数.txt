@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int happy(int n){
+        int s=0;
+        while(n!=0){
+            s+=(n%10)*(n%10);
+            n/=10;
+        }
+        return s;
+    }
+
+    bool isHappy(int n) {
+        if(n==1)
+            return true;
+        int s=n,f=n;    //快慢指针破循环
+        while(1){
+            s=happy(s);
+            f = happy(happy(f));
+            if(s==1)
+                return true;
+            if(s==f)    //f追上了s
+                return false;
+        }
+    }
+};

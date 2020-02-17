@@ -1,0 +1,23 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {	//也可以用hash存访问过的地址
+        ListNode *s,*f;
+        s=head;
+        f=head;
+        while(f!=NULL&&f->next!=NULL){  //快慢指针，每次f走两步,s走一步，每轮两个距离减少1,如果有环,f迟早会追上s。
+            f = f->next->next;
+            s = s->next;
+            if(f==s)
+                return true;
+        }
+        return false;
+    }
+};

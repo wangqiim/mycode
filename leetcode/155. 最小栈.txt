@@ -1,0 +1,44 @@
+class MinStack {
+private:
+    vector<int> stack1,stack2;  //额外的栈来记录最小元素
+    int num;
+public:
+    /** initialize your data structure here. */
+    MinStack() {
+        num = 0;
+    }
+    
+    void push(int x) {
+        stack1.push_back(x);
+        if(num != 0){
+            if(x<stack2[num-1])
+                stack2.push_back(x);
+            else stack2.push_back(stack2[num-1]);
+        }
+        else stack2.push_back(x);
+        num++;
+    }
+    
+    void pop() {
+        stack1.pop_back();
+        stack2.pop_back();
+        num--;
+    }
+    
+    int top() {
+        return stack1[num-1];
+    }
+    
+    int getMin() {
+        return stack2[num-1];
+    }
+};
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(x);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.getMin();
+ */

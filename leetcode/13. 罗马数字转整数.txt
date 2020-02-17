@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int romanToInt(string s) {
+        map<char,int> hashmap;
+        hashmap['I']=1;
+        hashmap['V']=5;
+        hashmap['X']=10;
+        hashmap['L']=50;
+        hashmap['C']=100;
+        hashmap['D']=500;
+        hashmap['M']=1000;
+        int res=0,size=s.size();
+        for(int i=0;i<size;i++){
+            if(i+1<size&&hashmap[s[i]]<hashmap[s[i+1]]){
+                res = res-hashmap[s[i]]+hashmap[s[i+1]];
+                i++;
+            }else{
+                res += hashmap[s[i]];
+            }
+        }
+        return res;
+    }
+};
