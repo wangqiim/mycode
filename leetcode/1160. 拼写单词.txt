@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int countCharacters(vector<string>& words, string chars) {
+        vector<int> hashmap(26,0);
+        int res = 0;
+        for(int i=0;i<chars.size();i++){
+            hashmap[chars[i]-'a']++;
+        }
+        int flag=1;
+        for(int i=0;i<words.size();i++){
+            vector<int> copymap(hashmap);   //复制一份chars存储数组
+            flag = 1;
+            for(int j = 0;j<words[i].size();j++){
+                copymap[words[i][j]-'a']--;
+                if(copymap[words[i][j]-'a']<0){ //无法构成该单词
+                    flag = 0;
+                    break;
+                }
+            }
+            if(flag){
+                res += words[i].size();
+            }
+        }
+        return res;
+    }
+};

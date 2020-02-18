@@ -1,0 +1,23 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        return tree(nums,0,nums.size()-1);
+    }
+    TreeNode* tree(vector<int>& nums,int low,int high){
+        if(low>high)
+            return NULL;
+        TreeNode *p=new TreeNode(nums[(low+high)/2]);
+        p->left = tree(nums,low,(low+high)/2-1);
+        p->right= tree(nums,(low+high)/2+1,high);
+        return p;
+    }
+};

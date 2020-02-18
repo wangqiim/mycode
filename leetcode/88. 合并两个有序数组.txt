@@ -1,0 +1,37 @@
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        m--;
+        n--;
+        while(m>=0 && n>=0){    //nums2没判断完,并且num1也没判断完
+            if(nums1[m]<nums2[n]){
+                nums1[m+n+1] = nums2[n];
+                n--;
+            }else{
+                nums1[m+n+1] = nums1[m];
+                m--;
+            }
+        }
+        while(n>=0){ //判断是否是因为num1判断完导致的上述循环结束
+            nums1[m+n+1] = nums2[n];
+            n--; 
+        }
+        return ;
+    }
+	/*void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {//第一次写的,方法不好,不可取,整理代码的时候看到这题一下就有新的想法了
+        vector<int>::iterator it=nums1.begin();
+        if(n==0)
+            return;
+        int i=0,j=0;
+        while(i<m+n){
+            if((i-j)==m||((j!=n)&&(nums1[i]>nums2[j]))){
+                nums1.pop_back();
+                nums1.insert(it,nums2[j]);
+                j++;
+            }
+            i++;
+            it++;
+        }
+        return ;
+    }*/
+};

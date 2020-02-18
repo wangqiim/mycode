@@ -1,0 +1,38 @@
+class Solution {
+public:
+    bool wordPattern(string pattern, string str) {
+        map<char,string> hashmap;
+        set<string> hashset;
+        string s;    //暂存单词
+        int j = 0;  //用来扫描str
+        int sizep = pattern.size(),sizes = str.size();
+        for(int i=0;i<sizep;i++){	//a->b
+            s="";
+            if(j==sizes)    //pattern 比 str长
+                return false;
+            for(;j<sizes;j++){
+                if(str[j]!=' ')
+                    s += str[j];
+                else{
+                    j++;
+                    break;
+                }
+            }
+            if(hashmap.find(pattern[i])==hashmap.end()&&hashset.find(s)==hashset.end()){
+                //该字母a还未映射,且没有映射到字符串b的
+                hashmap[pattern[i]]=s;
+                hashset.insert(s);
+            }else{
+                if(hashmap.find(pattern[i])!=hashmap.end()&&hashmap[pattern[i]] == s) //a有映射并且正确
+                    continue;
+                else{
+                    return false;
+                }
+            }
+
+        }
+        if(j!=sizes)    //pattern 比 str短
+            return false;
+        return true;
+    }
+};

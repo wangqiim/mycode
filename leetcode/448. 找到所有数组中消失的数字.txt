@@ -1,0 +1,15 @@
+class Solution {
+public:
+    vector<int> findDisappearedNumbers(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> res;
+        for(int i=0;i<n;i++){
+            nums[abs(nums[i])-1] = -1*(abs(nums[abs(nums[i])-1])); //把出现过的数字作为索引,把该位置变负
+        }
+        for(int j=0;j<n;j++){
+            if(nums[j]>0)
+                res.push_back(j+1);
+        }
+        return res;
+    }
+};

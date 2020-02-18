@@ -1,0 +1,35 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public: 
+    bool issametree(TreeNode* s, TreeNode* t){  //判断s和t是否相同
+        if(s==NULL&&t==NULL)    //同时空匹配成功是
+            return true;
+        if(s==NULL^t==NULL)     //只有一个空，则不匹配
+            return false;
+        if(s->val==t->val)  //当前结点满足，再去比下面的结点
+            return issametree(s->left,t->left)&&issametree(s->right,t->right);
+        else 
+            return false;
+    }
+    bool isSubtree(TreeNode* s, TreeNode* t) {
+        if(s==NULL&&t==NULL)    //同时空匹配成功是
+            return true;
+        if(s==NULL^t==NULL)     //只有一个空，则不匹配
+            return false;
+        if(issametree(s,t)){ 
+            //当前结点相同,尝试继续向下比较成功
+            return true;
+        }
+        else{
+            return isSubtree(s->left,t)||isSubtree(s->right,t); //尝试用s的左右子树去匹配
+        }
+    }
+};

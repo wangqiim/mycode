@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int getSum(int a, int b) {
+        int c;
+        while(b!=0){
+            c = a^b;    //异或是无进位加法
+            //unsigned 防止超出界限
+            b = (unsigned int)(a&b)<<1;   //通过&得到进位,因为要把进位加到c上,因此左移一位
+            a = c;
+        }
+        return a;
+    }
+};

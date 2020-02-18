@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        map<char,int> hashmap,hashmap2;
+        int sizes = s.size(),sizet = t.size();
+        if(sizes!=sizet)
+            return false;
+        for(int i=0;i<sizes;i++){	//a->b
+            if(hashmap.find(s[i])==hashmap.end()&&hashmap2.find(t[i])==hashmap2.end()){
+                //该字母a还未映射,且没有映射到b的 
+                hashmap[s[i]] = t[i];
+                hashmap2[t[i]] = s[i];
+            }else{
+                if(hashmap.find(s[i])!=hashmap.end()&&hashmap[s[i]] == t[i]) //a有映射并且正确 
+                    continue;
+                else
+                    return false;
+            }
+        }
+        return true;
+    }
+};

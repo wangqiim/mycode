@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool canPlaceFlowers(vector<int>& flowerbed, int n) {
+        int size = flowerbed.size();
+        int m=1;    //在做端点默认添加一个0
+        for(int i=0;i<size;i++){
+            if(flowerbed[i]==0)
+                m++;
+            else{
+                n -= (m-1)/2;
+                m=0;
+            }
+        }
+        m++;    //在右端点默认添加一个0
+        n -= (m-1)/2;
+        if(n<=0)
+            return true;
+        else 
+            return false;
+    }
+};
