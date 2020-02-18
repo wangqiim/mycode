@@ -1,0 +1,18 @@
+class Solution {
+public:
+	//https://leetcode-cn.com/problems/container-with-most-water/solution/sheng-zui-duo-shui-de-rong-qi-by-leetcode/
+    int maxArea(vector<int>& height) {	//双指针每次移动短的才可能让面积变大.
+        int size = height.size();
+        int maxarea = 0;
+        int left = 0,right = size-1;
+        while(left<right){
+            int area = (right-left)*min(height[left],height[right]);
+            maxarea = max(area,maxarea);
+            if(height[left]<height[right])
+                left++;
+            else
+                right--;
+        }
+        return maxarea;
+    }
+};

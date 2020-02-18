@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int peakIndexInMountainArray(vector<int>& A) {  //二分
+        int size = A.size();
+        int low=0,high=size-1,mid;
+        while(low<high){
+            mid=(low+high)/2;
+            if(A[mid]<A[mid+1])
+                low = mid+1;
+            else
+                high = mid;
+        }
+        return low;
+    }
+    /*int peakIndexInMountainArray(vector<int>& A) {   //暴力
+        int i;
+        int size = A.size();
+        for(i=0;i<size;i++){
+            if(A[i]>A[i+1])
+                break;
+        }
+        return i;
+    }*/
+};

@@ -1,0 +1,33 @@
+class Solution {
+public:
+    map<char,string> dic;
+    int size;
+    vector<string> res;
+    string s;   //暂存形成的每一个字符串
+    vector<string> letterCombinations(string digits) {
+        dic['2']="abc";
+        dic['3']="def";
+        dic['4']="ghi";
+        dic['5']="jkl";
+        dic['6']="mno";
+        dic['7']="pqrs";
+        dic['8']="tuv";
+        dic['9']="wxyz";
+        size = digits.size();
+        if(size == 0)
+            return res;
+        myfun(digits,0);
+        return res;
+    }
+    void myfun(string digits,int n){    //dfs
+        if(n == size){
+            res.push_back(s);
+            return;
+        }
+        for(int i=0;i<dic[digits[n]].size();i++){
+            s.push_back(dic[digits[n]][i]);
+            myfun(digits,n+1);
+            s.pop_back();
+        }
+    }
+};

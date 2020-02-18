@@ -1,0 +1,58 @@
+class Solution {
+public:
+    /*法一:动态规划*/
+    string longestPalindrome(string s) {    //长度相等时返回最前面的回文串
+        int size = s.size();
+        if(size<1)
+            return s;
+        int begin=0,len=1;//begin回文串开始的位置.len最大回文的长度
+        vector<vector<int> > dp(size,vector<int>(size,0));
+        for(int i=0;i<size;i++){
+            dp[i][i] = 1;
+            if(i+1<size&&s[i]==s[i+1]){
+                dp[i][i+1]=1;
+                if(2>len){
+                    begin = i;
+                    len = 2;
+                }
+            }
+        }
+        for(int d=2;d<size;d++){
+            for(int i=0;i+d<size;i++){
+                if(dp[i+1][i+d-1]==1&&s[i]==s[i+d]){
+                    dp[i][i+d]=1;
+                    if(d+1>len){
+                        begin = i;
+                        len=d+1;
+                    }
+                }
+            }
+        }
+        return s.substr(begin,len);
+    }
+	/*法二:中心拓展算法*/
+    /*
+	string longestPalindrome(string s) {    //长度相等时返回最前面的回文串
+		int size = s.size();
+		if(size<=1)
+			return s;
+		int begin=0,maxlen=1;
+		for(int i=0;i<size;i++){
+			int len1 = expand_center(s,i,i);
+			int len2 = expand_center(s,i,i+1);
+			int len = max(len1,len2);
+			if(len > maxlen){
+				maxlen = len;
+				begin = i - (maxlen-1)/2;
+			}
+		}
+		return s.substr(begin,maxlen);
+    }
+	int expand_center(string s,int left,int right){	//以left和right的正中心(中心可能在字符上也可能在字符中间)向两边拓展
+		while(left>=0&&right<s.size()&&s[left]==s[right]){
+			left--;
+			right++;
+		}
+		return right-left-1;
+	}*/
+};
