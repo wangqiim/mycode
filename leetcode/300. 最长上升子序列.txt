@@ -1,0 +1,39 @@
+class Solution {
+public:
+    /*
+    int lengthOfLIS(vector<int>& nums) {    //最开始写的代码
+        int size = nums.size();
+        vector<int> flag(size,INT_MAX);
+        int i,j;
+        for(i = 0;i<size;i++){
+            for(j=0;j<size;j++)
+                if(nums[i]<=flag[j]){
+                    flag[j]=nums[i];
+                    break;
+                }
+        }
+        for(i = 0;i<size;i++){
+            if(flag[i]==INT_MAX){
+                break;                
+            }
+        }
+        return i;
+    }*/
+    int lengthOfLIS(vector<int>& nums) {	//法二：动态规划
+        int size = nums.size();
+        if(size == 0)
+            return 0;
+        vector<int> dp(size);   //dp[i]表示以i结尾的最长上升子序列的长度
+        dp[0] = 1;
+        int res=1;
+        for(int i=i+1;i<size;i++){
+            dp[i] = 1;
+            for(int j=0;j<i;j++){
+                if(nums[i]>nums[j])
+                    dp[i] = max(dp[i],dp[j]+1);
+            }
+            res=max(res,dp[i]);
+        }
+        return res;
+    }
+};

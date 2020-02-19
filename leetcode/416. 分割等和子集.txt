@@ -1,0 +1,17 @@
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {//01背包
+        int size = nums.size();
+        bool dp[20001]={true,false};    //dp[i][j]从前i个数字选数能否使得其和为j,压缩数组省略i
+        int s=0;
+        for(int i=0;i<size;i++)
+            s+=nums[i];
+        if(s%2!=0)  //数组和为奇数
+            return false;
+        else s=s/2;
+        for(int i=0;i<size;i++)
+            for(int j=s;j>=nums[i];j--)
+                dp[j]=dp[j]|dp[j-nums[i]];
+        return dp[s];
+    }
+};

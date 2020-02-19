@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {    //完全背包问题
+        int size = coins.size();
+        vector<int> dp(amount+1,amount+1);  
+        //不能组成则为amount+1,能组成则为最小硬币个数0,1,2...
+        dp[0]=0;
+        for(int i=0;i<size;i++)
+            for(int j=coins[i];j<=amount;j++)
+                dp[j] = min(dp[j],dp[j-coins[i]]+1);
+        if(dp[amount]<=amount)
+            return dp[amount];  
+        else return -1; 
+    }
+};

@@ -1,0 +1,28 @@
+class Solution {
+public:
+    /*int maxSubArray(vector<int>& nums) {    //第一次写时候还不知啥是DP
+        int size = nums.size();
+        int current = nums[0];
+        int max = nums[0];
+        for(int i = 1;i<size;i++){
+            if(current<=0)
+                current = nums[i];
+            else 
+                current += nums[i];
+            if(current>max)
+                max = current;
+        }
+        return max;
+    }*/
+    int maxSubArray(vector<int>& nums) {
+        int size = nums.size();
+        int res=nums[0];
+        vector<int> dp(size);   //dp[i]表示以i结尾的最大连续子序列和
+        dp[0] = nums[0];
+        for(int i=1;i<size;i++){
+            dp[i] = max(nums[i],dp[i-1]+nums[i]);
+            res = max(dp[i],res);
+        }
+        return res;
+    }
+};
