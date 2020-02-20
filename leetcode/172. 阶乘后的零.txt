@@ -1,0 +1,11 @@
+class Solution {
+public:
+    int trailingZeroes(int n) {
+        int count = 0;
+        while(n>1){ //只有2*5的末尾才能构成0,2的个数肯定比5多,因此只要得到5的个数即可
+            n = n/5;    //(n/5 - n)之间的数包含了n/5个5
+            count = count +n;
+        }
+        return count;
+    }
+};

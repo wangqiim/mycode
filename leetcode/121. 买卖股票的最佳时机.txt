@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {  
+        int size = prices.size();
+        int minprice=prices[0],maxpro=0;    //minprice最低价格,maxpro最大收益
+        for(int i = 0;i<size;i++){
+            if(prices[i]<minprice)
+                minprice = prices[i];
+            else {
+                maxpro = max(maxpro,prices[i]-minprice);
+            }
+        }
+        return maxpro;
+    }
+};

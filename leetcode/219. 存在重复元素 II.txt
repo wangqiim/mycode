@@ -1,0 +1,18 @@
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        if(k==0)
+            return false;
+        map<int,int> hashmap;
+        int size = nums.size();
+        for(int i=0;i<size;i++){
+            if(hashmap.find(nums[i])==hashmap.end()){   //不存在
+                if(hashmap.size()==k)
+                    hashmap.erase(hashmap.find(nums[i-k]));
+                hashmap[nums[i]] = i;
+            }else   //字典中存在
+                return true;
+        }
+        return false;
+    }
+};

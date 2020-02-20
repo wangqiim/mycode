@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        //dp[i]表示偷前i家的最大收益
+        //dp[i] = max(dp[i-2]+nums[i],dp[i-1])
+        int res=0;  //结果dp[i]
+        int size = nums.size();
+        int pre_pre=0;  //暂存dp[i-2]
+        int pre = 0;    //暂存dp[i-1]
+        for(int i=0;i<size;i++){
+            res = max(pre_pre+nums[i],pre);
+            pre_pre = pre;
+            pre = res;
+        }
+        return res;
+    }
+};

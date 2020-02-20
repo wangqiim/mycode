@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int findRepeatNumber(vector<int>& nums) {//法1:抽屉法,时间O(n),空间O(1)
+        int size = nums.size();
+        int t;
+        for(int i=0;i<size;i++){
+            if(i!=nums[i]){ //nums[i]不在该在的位置
+                if(nums[nums[i]]==nums[i])  //nums[i]该在的位置上已经有nums[i]了,重复！
+                    return nums[i];
+                int t = nums[nums[i]];  //把nums[i]和nums[nums[i]]交换
+                nums[nums[i]] = nums[i];
+                nums[i] = t;
+            }
+        }
+        return -1;
+    }
+    //法二:哈希,时间O(n),空间O(n)，但是不会破坏原来的数组
+    //法三:排序,时间O(logn),空间O(1)
+};

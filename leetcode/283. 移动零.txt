@@ -1,0 +1,14 @@
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int size = nums.size();
+        int i=0,j=0;    //快慢指针,j找到非0数复制给i交换位置
+        for(;j<size;j++){
+            if(nums[j]!=0){
+                nums[i++]=nums[j];
+            }
+        }
+        while(i<size)
+            nums[i++] = 0;
+    }
+};
