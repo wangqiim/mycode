@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>> res;
+        int size = nums.size();
+        if(size<3)
+            return res;
+        sort(nums.begin(),nums.end());
+        for(int i=0;i<size-2;i++){//i从0开始遍历,双指针分别指向剩余数组的两端根据三数之和移动后面两个指针
+            if(nums[i]>0) break;
+            if(i>0&&(nums[i]==nums[i-1])) continue; //nums[i]去重
+            int begin=i+1,end=size-1;
+            while(begin<end){
+                int s=nums[begin]+nums[i]+nums[end];
+                if(s==0){
+                    res.push_back({nums[begin],nums[i],nums[end]});
+                    begin++;end--;
+                    while(begin<end&&nums[begin-1]==nums[begin]){//nums[begin]去重
+                        begin++;
+                    }
+                    while(begin<end&&nums[end]==nums[end+1]){//nums[begin]去重
+                        end--;
+                    }
+                }else if(s>0){
+                    end--;
+                }else{
+                    begin++;
+                }
+            }
+        }
+        return res;
+    }
+};

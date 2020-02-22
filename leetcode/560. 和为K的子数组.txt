@@ -1,0 +1,36 @@
+class Solution {
+public:
+    /*
+    int subarraySum(vector<int>& nums, int k) { //法一：遍历得到开头位置再遍历后续整个数组,时间O(n^2)
+        int size = nums.size();
+        int res=0;
+        for(int i=0;i<size;i++){    //以nums[i]开头
+            int t = 0;
+            for(int j=i;j<size;j++){
+                t+=nums[j];
+                if(t==k)
+                    res++;
+            }
+        }
+        return res;
+    }*/
+    int subarraySum(vector<int>& nums, int k) { //法二：hashmap+累计和，先理解累计和就好理解了
+        map<int,int> hashmap;   //键为累计和，值为次数
+        hashmap[0] = 1;
+        int size = nums.size();
+        int res = 0;
+        int acc = 0;   //0-i的累计和
+        for(int i=0;i<size;i++){
+            acc += nums[i]; 
+            int key = acc-k;
+            //acc[i]-acc[begin] = k等价于acc[i] - k在字典中存在(acc[begin])
+            if(hashmap.find(key)!=hashmap.end())    //存在
+                res+=hashmap[key];
+            if(hashmap.find(acc)!=hashmap.end())    //把acc存入字典，已经存在则+1
+                hashmap[acc]++;
+            else
+                hashmap[acc] = 1;
+        }
+        return res;
+    }
+};

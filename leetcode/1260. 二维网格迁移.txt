@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<vector<int>> shiftGrid(vector<vector<int>>& grid, int k) {//二维转一纬再转二维
+        vector<int> nums;
+        int m=grid.size();
+        if(m==0) return grid;
+        int n=grid[0].size();
+        for(int i=0;i<m;i++)
+            for(int j=0;j<n;j++)
+                nums.push_back(grid[i][j]);
+        int size = nums.size();
+        k=k%size;
+        reverse(nums.begin(),nums.end());
+        reverse(nums.begin(),nums.begin()+k);
+        reverse(nums.begin()+k,nums.end());
+        int t=0;
+        for(int i=0;i<m;i++)
+            for(int j=0;j<n;j++)
+                grid[i][j]=nums[t++];
+        return grid;
+    }
+};

@@ -1,0 +1,46 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> res;
+    vector<int> findMode(TreeNode* root) {  //中序遍历得到递增序列.
+        if(!root) return res;
+        int n;  //n前驱的值
+        int t=0;
+        int maxt = 0;
+        TreeNode *p=root;
+        while(p){
+            n = p->val; //n初始为最小的值
+            p = p->left;
+        }
+        myfunc(root,n,t,maxt);
+        return res;
+    }
+    
+    void myfunc(TreeNode* root,int &n,int &t,int &maxt){    //中序遍历
+        if(!root) return;
+        myfunc(root->left,n,t,maxt);
+        if(n==root->val){   
+            t++;
+        }else{//和前一个结点不相同
+            n = root->val;
+            t=1;
+        }
+        if(t==maxt)
+            res.push_back(root->val);
+        else if(t>maxt){
+            res.clear();
+            res.push_back(root->val);
+            maxt = t;
+        }
+        myfunc(root->right,n,t,maxt);
+        return;
+    }
+};

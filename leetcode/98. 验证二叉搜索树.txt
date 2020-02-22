@@ -1,0 +1,24 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    long long last = LONG_MIN;  //某个数中的最大结点值
+    bool isValidBST(TreeNode* root) {   //中序遍历结果升序，则为二叉搜索树
+        if(root == NULL)
+            return true;
+        if(isValidBST(root->left)){
+            if(last < root->val){
+                last = root->val;
+                return isValidBST(root->right);
+            }
+        }
+        return false;
+    }
+};

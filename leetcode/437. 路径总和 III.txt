@@ -1,0 +1,52 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    /*
+    int res=0;
+    int pathSum(TreeNode* root, int sum) {  //遍历所有结点依次作为头结点
+        if(root==NULL) return 0;
+        myfunc(root,sum);
+        pathSum(root->left,sum);
+        pathSum(root->right,sum);
+        return res;
+    }
+    void myfunc(TreeNode* root, int sum){  //依次结尾或者不结尾计算是否可以组成路径
+        if(root==NULL)
+            return;
+        sum-=root->val;
+        if(sum==0){ //可以结尾吗
+            res++;
+        }
+        myfunc(root->left,sum);
+        myfunc(root->right,sum);
+        return;
+    }*/
+    int acc=0;  //累加和
+    map<int,int> hashmap;
+    int pathSum(TreeNode* root, int sum) {  //法二：利用前缀和（累加和）与哈希字典
+        if(!root) return 0;
+        hashmap[0]=1;
+        return myfunc(root,sum);
+    }
+    
+    int myfunc(TreeNode* root, int sum){    //访问root结点,访问完以后要修改hashmap和累加和
+        if(!root) return 0;
+        acc += root->val;   //到root结点的前缀和
+        int key = acc - sum;//在地点中查询是否存在前缀和key
+        int res = hashmap[key];//字典访问越界则返回0
+        hashmap[acc]++;
+        res+=myfunc(root->left,sum);
+        res+=myfunc(root->right,sum);
+        hashmap[acc]--;
+        acc-=root->val;
+        return res;
+    }
+};
