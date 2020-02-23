@@ -1,0 +1,20 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    
+    vector<int> reversePrint(ListNode* head) {  //递归写法，也可以用栈，也可以翻转链表,也可以扫描两次先标记长度在把数组从后往前赋值
+        vector<int> res;
+        if(!head)
+            return res;
+        res=reversePrint(head->next);
+        res.push_back(head->val);
+        return res;
+    }
+};

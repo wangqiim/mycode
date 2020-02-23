@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int numberOfSubstrings(string s) {
+        int res=0;
+        int n = s.size();
+        int hashmap[3] = {0,0,0};   //当前子串中a,b,c的个数
+        hashmap[s[0]-'a']++;
+        hashmap[s[1]-'a']++;
+        int i=0;
+        for(int j=i+2;j<n;j++){
+            hashmap[s[j]-'a']++;
+            while(hashmap[0]&&hashmap[1]&&hashmap[2]){
+                res+=n-j;
+                hashmap[s[i++]-'a']--;
+            }
+        }
+        return res;
+    }
+};

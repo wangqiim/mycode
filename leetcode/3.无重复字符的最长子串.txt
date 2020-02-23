@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int lengthOfLongestSubstring(string s) {
+    /*int lengthOfLongestSubstring(string s) {  //之前的代码,复杂度O(n^2)
         int  size,i=0,j,k,max=0;
         size = s.size();
         for(j = 0;j<size;j++){
@@ -10,6 +10,20 @@ public:
                     break;
                 }
             if(j-i+1 > max)
+                max = j-i+1;
+        }
+        return max;
+    }*/
+    int lengthOfLongestSubstring(string s) { //双指针滑动窗口
+        int max=0;
+        map<char,int> hashmap;  //当前子串中各个字母出现的次数
+        int n = s.size();
+        for(int i=0,j=0;j<n;j++){//当前判断是否重复的串为s[i..j]
+            hashmap[s[j]]++;
+            while(hashmap[s[j]]>1){
+                hashmap[s[i++]]--;  //i指针右移
+            }
+            if(j-i+1>max)
                 max = j-i+1;
         }
         return max;

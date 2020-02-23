@@ -1,0 +1,40 @@
+class Cashier {
+public:
+    int is_disc;    //折扣周期
+    int k;//本次购买是否折扣
+    double disc;    //折扣力度
+    vector<int> pds;
+    vector<int> prc;
+    Cashier(int n, int discount, vector<int>& products, vector<int>& prices) {
+        is_disc = n;
+        k = n;
+        disc = 1-discount/100.0;
+        pds=products;
+        prc=prices;
+    }
+    
+    double getBill(vector<int> product, vector<int> amount) {
+        int n = product.size();
+        double res=0;
+        double d;   //本次购买的折扣系数
+        if(k!=1){   //k为1时才打折
+            d=1;
+            k--;
+        }else{
+            d=disc;
+            k=is_disc;
+        }
+        for(int i=0;i<n;i++){
+            int j=0;  //找到该次购买物品的索引
+            while(product[i]!=pds[j]) j++;
+            res += d*amount[i]*prc[j];
+        }
+        return res;
+    }
+};
+
+/**
+ * Your Cashier object will be instantiated and called as such:
+ * Cashier* obj = new Cashier(n, discount, products, prices);
+ * double param_1 = obj->getBill(product,amount);
+ */

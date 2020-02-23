@@ -1,0 +1,23 @@
+class Solution {
+public:
+    static int num_1(int n){
+        int res=0;
+        while(n){
+            n = (n-1)&n;
+            res++;
+        }
+        return res;
+    }
+    
+    static bool cmp(int a,int b){
+        if(num_1(a)==num_1(b))
+            return a<b;
+        else 
+            return num_1(a)<num_1(b);
+    }
+    
+    vector<int> sortByBits(vector<int>& arr) {
+        sort(arr.begin(),arr.end(),cmp);
+        return arr;
+    }
+};

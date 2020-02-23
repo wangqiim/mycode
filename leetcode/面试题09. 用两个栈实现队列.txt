@@ -1,0 +1,39 @@
+class CQueue {
+public:
+    stack<int> s1,s2;
+    int n;
+    
+    CQueue() {
+        n=0;
+    }
+    
+    void appendTail(int value) {
+        s2.push(value);
+        n++;
+        return;
+    }
+    
+    int deleteHead() {
+        if(n==0)
+            return -1;
+        int t;
+        if(s1.empty()){ //当s1空时,将s2倒入s1中
+            while(!s2.empty()){
+                t = s2.top();
+                s1.push(t);
+                s2.pop();
+            }
+        }
+        t = s1.top();
+        s1.pop();
+        n--;
+        return t;
+    }
+};
+
+/**
+ * Your CQueue object will be instantiated and called as such:
+ * CQueue* obj = new CQueue();
+ * obj->appendTail(value);
+ * int param_2 = obj->deleteHead();
+ */
