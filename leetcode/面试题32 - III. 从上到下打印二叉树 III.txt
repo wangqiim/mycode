@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {//法一:记录每层输出的个数,在上一题的基础上简单修改即可
+        vector<vector<int>> res;
+        vector<int> res_line;
+        if(!root) return res;
+        queue<TreeNode*> q;
+        TreeNode *p;
+        q.push(root);
+        int n=1;    //记录该层的结点数字
+        int next_n=0;   //记录下一层的结点数
+        bool flag = true;   //决定孩子的入队顺序
+        while(!q.empty()){  //当flag为false时，需要逆序插入数组,因此搞一个栈或者把数组转置
+            p = q.front();  //p暂存弹出的元素
+            q.pop();
+            res_line.push_back(p->val);
+            if(p->left) {q.push(p->left);next_n++;}
+            if(p->right) {q.push(p->right);next_n++;}
+            if((--n)==0){   //该行结点全部弹出
+                if(!flag) reverse(res_line.begin(),res_line.end());
+                res.push_back(res_line);
+                res_line.clear();
+                n = next_n;
+                next_n = 0;
+                flag=!flag;
+            }
+        }
+        return res;
+    }
+
+};

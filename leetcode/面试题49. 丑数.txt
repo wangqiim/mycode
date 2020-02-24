@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int nthUglyNumber(int n) {
+        vector<int> uglynum(n); //存放前n个丑数
+        uglynum[0]=1;
+        int index=1,min_2=0,min_3=0,min_5=0;
+        int ugly;
+        while(index<n){ //第i个丑数,一定是前i-1个丑数分别乘以2 3 5所能得到大于uglynum[i-1]的最小的。
+            ugly = uglynum[index-1];
+            while(uglynum[min_2]*2<=ugly) min_2++;
+            while(uglynum[min_3]*3<=ugly) min_3++;
+            while(uglynum[min_5]*5<=ugly) min_5++;
+            uglynum[index]=min(uglynum[min_2]*2,uglynum[min_3]*3);
+            uglynum[index]=min(uglynum[index],uglynum[min_5]*5);
+            index++;
+        }
+        return uglynum[n-1];
+    }
+};

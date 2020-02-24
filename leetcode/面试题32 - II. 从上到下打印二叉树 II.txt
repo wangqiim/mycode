@@ -1,0 +1,60 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {    //法一:记录每层输出的个数
+        vector<vector<int>> res;
+        vector<int> res_line;
+        if(!root) return res;
+        queue<TreeNode*> q;
+        TreeNode *p;
+        q.push(root);
+        int n=1;    //记录该层的结点数字
+        int next_n=0;   //记录下一层的结点数
+        while(!q.empty()){
+            p = q.front();  //p暂存弹出的元素
+            q.pop();
+            res_line.push_back(p->val);
+            if(p->left) {q.push(p->left);next_n++;}
+            if(p->right) {q.push(p->right);next_n++;}
+            if((--n)==0){   //该行结点全部弹出
+                res.push_back(res_line);
+                res_line.clear();
+                n = next_n;
+                next_n = 0;
+            }
+        }
+        return res;
+    }
+    /*
+    vector<vector<int>> levelOrder(TreeNode* root) {    //法二:队列中保存结点以及他的层数
+        vector<vector<int>> res;
+        vector<int> res_line;
+        if(!root) return res;
+        queue<pair<TreeNode*,int> > q;  //队列中保存层数
+        pair<TreeNode*,int> p;//暂存弹出的结点
+        int line = 0;
+        q.push(make_pair(root,0));
+        while(!q.empty()){
+            p = q.front();
+            q.pop();
+            if(p.first->left) q.push(make_pair(p.first->left,p.second+1));
+            if(p.first->right) q.push(make_pair(p.first->right,p.second+1));
+            if(p.second!=line){ //需要输出新的一层
+                res.push_back(res_line);
+                res_line.clear();
+                line++;
+            }
+            res_line.push_back(p.first->val);
+        }
+        res.push_back(res_line);
+        return res;
+    }*/
+};

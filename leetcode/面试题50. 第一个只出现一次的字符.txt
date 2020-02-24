@@ -1,0 +1,15 @@
+class Solution {
+public:
+    char firstUniqChar(string s) {
+        map<char,int> hashmap;
+        int n =s.size();
+        for(int i=0;i<n;i++){
+            hashmap[s[i]]++;
+        }
+        for(int i=0;i<n;i++){
+            if(hashmap[s[i]]==1)    //第一个出现就返回
+                return s[i];
+        }
+        return ' ';
+    }
+};

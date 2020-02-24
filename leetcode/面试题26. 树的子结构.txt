@@ -1,0 +1,26 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isSubStructure(TreeNode* A, TreeNode* B) { //遍历二叉树,判断以A为起始结点与B进行匹配
+        if(!B||!A) return false;
+        return istrue(A,B)||isSubStructure(A->left,B)||isSubStructure(A->right,B);
+    }
+
+    bool istrue(TreeNode* A, TreeNode* B){
+        if(!B) return true;
+        if(!A) return false;
+        if(A->val==B->val){ //A和B结点匹配了
+            return istrue(A->left,B->left)&&istrue(A->right,B->right);
+        }else{
+            return false;
+        }
+    }
+};

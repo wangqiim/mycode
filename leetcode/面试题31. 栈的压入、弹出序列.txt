@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        stack<int> s;
+        int m = pushed.size(),n =popped.size();
+        int num;
+        int i=0,j=0;
+        while(j<n){
+            if(!s.empty()&&s.top()==popped[j]){   //栈中可以匹配，则出栈
+                s.pop();
+                j++;
+            }else{  //入栈
+                if(i==m)
+                    break;
+                s.push(pushed[i++]);
+            }
+        }
+        if(i==m&&j==n)  //push数组全入栈，pop数组全出栈
+            return true;
+        else
+            return false;
+    }
+};
