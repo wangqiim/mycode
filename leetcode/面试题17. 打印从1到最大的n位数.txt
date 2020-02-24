@@ -1,0 +1,12 @@
+class Solution {
+public:
+    vector<int> printNumbers(int n) {   //剑指OFFER上这题是为了使用字符串代替数字+
+        int maxn;
+        vector<int> nums;
+        maxn=pow(10,n);
+        for(int i=1;i<maxn;i++){
+            nums.push_back(i);
+        }
+        return nums;
+    }
+};

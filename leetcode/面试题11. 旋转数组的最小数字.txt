@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int minArray(vector<int>& numbers) {
+        int n = numbers.size();
+        int left = 0,right = n-1,mid;
+        while(left<right){
+            mid = left + (right-left)/2;
+            if(numbers[mid]<numbers[right])
+                right=mid;
+            else if(numbers[mid]>numbers[right])
+                left=mid+1;
+            else
+                right--;
+        }
+        return numbers[left];
+    }
+};

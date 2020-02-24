@@ -1,0 +1,34 @@
+class Solution {
+public:
+    string word;
+    vector<vector<char>> board;
+    vector<vector<bool> > isvisit;
+    int len,m,n;
+    bool exist(vector<vector<char>>& board, string word) {
+        m = board.size();
+        n = board[0].size();
+        len = word.size();
+        this->board = board;
+        this->word = word;
+        isvisit = vector<vector<bool> >(m,vector<bool>(n,false));
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){   //从[i,j]开始访问
+                if(visit(0,i,j))
+                    return true;
+            }
+        }
+        return false;
+    }
+    bool visit(int no,int i,int j){ //当前判断能否经过点(i,j)
+        if(no==len)
+            return true;
+        bool res=false;
+        if(i>=0&&i<m&&j>=0&&j<n&&board[i][j]==word[no]&&isvisit[i][j]==false){
+            isvisit[i][j] = true;
+            res = visit(no+1,i-1,j)||visit(no+1,i,j+1)||visit(no+1,i+1,j)||visit(no+1,i,j-1);
+            //上右下左
+            isvisit[i][j] = false;
+        }
+        return res;
+    }
+};

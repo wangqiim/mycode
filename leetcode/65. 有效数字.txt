@@ -1,0 +1,56 @@
+class Solution {
+public:
+    bool isNumber(string s) {   //E不行,e可以  数字形式AeB A可以是正负数和小数,B不可以是+开头  .C 也可以
+        int n=s.size();
+        int flag=0;
+        int i;
+        int begin=0;
+        for(i=0;i<n;i++){
+            if(s[i]=='e'){
+                flag = 1;
+                break;
+            }
+        }
+        for(int i=n-1;i>=0;i--){    //去除末尾空格
+            if(s[i]!=' ')
+                break;
+            n--;
+        }
+        for(int i=0;i<n;i++){   //去除开头空格
+            if(s[i]!=' ')
+                break;
+            begin++;
+        }
+        if(flag==1){
+            if(check(s,begin,i-1,0)&&check(s,i+1,n-1,1))
+                return true;
+            else return false;
+        }else{
+            if(check(s,begin,n-1,0))
+                return true;
+            else return false;
+        }
+    }
+    bool check(string& s,int begin,int end,int right){
+        if(begin>end) return false;
+        if(right==1){
+            if(s[begin]=='.')
+                return false;
+        }
+        int dot_n = 0;
+        for(int i=begin;i<=end;i++){
+            if(i==begin&&(s[i]=='+'||s[i]=='-')){
+                if(begin==end) return false;
+                continue;  //+-开头
+            }
+            if(s[i]!='.'){
+                if(s[i]<(int)'0'||s[i]>(int)'9')
+                    return false;
+            }else{
+                if(right||dot_n>0||begin==end||s[end-1]=='+'||s[end-1]=='-') return false;
+                else dot_n=1;
+            }
+        }
+        return true;
+    }
+};

@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int cuttingRope(int n) {
+        int mod =1e9+7;
+        if(n==2)
+            return 1;
+        if(n==3)
+            return 2;
+        long long res = 1;
+        while(n>4){
+            res *=3;
+            n -= 3;
+            res%=mod;
+        }
+        return res*n%mod;
+    }
+};

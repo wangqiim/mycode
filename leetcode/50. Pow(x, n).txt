@@ -1,0 +1,49 @@
+class Solution {
+public:
+    /*
+    double myPow(double x, int n) { //法一:递归写法
+        //不考虑x=0(非法)情况
+        long long nn=n;
+        if(n==0)
+            return 1;
+        int flag=0;
+        if(n<0){
+            flag=1;
+            nn=abs(nn);
+        }
+        if(flag)
+            return 1/quickpow(x,nn);
+        else
+            return quickpow(x,nn);
+    }
+
+    double quickpow(double x,long long n){
+        if(n==0)
+            return 1;
+        double res = quickpow(x,n>>1);
+        res *=res;
+        if(n&1)
+            res*=x;
+        return res;
+    }*/
+    double myPow(double x, int n) { //法二:迭代写法
+        long long nn=n;
+        if(n==0)
+            return 1;
+        int flag=0;
+        if(nn<0){
+            flag=1;
+            nn=abs(nn);
+        }
+        double res=1;
+        while(nn!=0){//1011 = x*(x*x)*((x*x*x*x)*(x*x*x*x))
+            if(nn&1) res*=x;
+            x*=x;
+            nn>>=1;
+        }
+        if(flag)
+            return 1/res;
+        else
+            return res;
+    }
+};

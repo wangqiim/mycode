@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int res;
+    int m,n,k;
+    vector<vector<bool> > isvist;
+    int movingCount(int m, int n, int k) {
+        res=0;
+        isvist = vector<vector<bool> >(m,vector<bool>(n,false));
+        this->m = m;
+        this->n = n;
+        this->k = k;
+        visit(0,0);
+        return res;
+    }
+    
+    void visit(int i,int j){
+        if(check(i,j)){
+            res++;
+            isvist[i][j] = true;
+            visit(i-1,j);visit(i,j+1);
+            visit(i+1,j);visit(i,j-1);//上下右左
+        }
+        return;
+    }
+
+    bool check(int i,int j){
+        if(i>=0&&i<m&&j>=0&&j<n&&isvist[i][j]==false&&getDigitSum(i)+getDigitSum(j)<=k)
+            return true;
+        else
+            return false;
+    }
+
+    int getDigitSum(int n){
+        int s=0;
+        while(n){
+            s+=n%10;
+            n/=10;
+        }
+        return s;
+    }
+};
