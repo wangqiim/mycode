@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<vector<int>> res;
+    int n;
+    vector<vector<int>> permute(vector<int>& nums) {
+        n = nums.size()-1;
+        myfun(nums,0);
+        return res;
+    }	
+
+    void myfun(vector<int>& nums,int begin){//[0~(begin-1)]是排好的，依次交换begin与数组后面元素递归
+        if(begin==n){
+            res.push_back(nums);
+        }
+        for(int i=begin;i<=n;i++){
+            int t=nums[i];
+            nums[i] = nums[begin];
+            nums[begin] = t;
+            myfun(nums,begin+1);
+            t=nums[i];
+            nums[i] = nums[begin];
+            nums[begin] = t;
+        }
+        return ;
+    }
+    
+};

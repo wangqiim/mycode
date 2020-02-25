@@ -1,0 +1,32 @@
+class Solution {
+public:
+    set<string> hashset;
+    vector<string> res;
+    int n;
+    vector<string> permutation(string s) {
+        res.clear();
+        n=s.size()-1;
+        permutate(s,0);
+        set<string>::iterator it=hashset.begin();
+        for(;it!=hashset.end();it++){   //使用集合去重
+            res.push_back(*it);
+        }
+        return res;
+    }
+    void permutate(string& s,int i){    //第i个依次与后面所有的交换
+        if(i==n){
+            hashset.insert(s);
+            return;
+        }
+        for(int j=n;j>=i;j--){
+            int t=s[i];
+            s[i] = s[j];
+            s[j] = t;
+            permutate(s,i+1);
+            t=s[i];
+            s[i] = s[j];
+            s[j] = t;
+        }
+        return;
+    }
+};

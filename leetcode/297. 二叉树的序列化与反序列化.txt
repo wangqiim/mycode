@@ -1,0 +1,72 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        string res="";
+        if(!root) return res;
+        stack<TreeNode*> s;
+        TreeNode *p;
+        s.push(root);  //先序遍历
+        while(!s.empty()){
+            p = s.top();
+            s.pop();
+            if(p){
+                if(p->right) s.push(p->right);
+                else s.push(NULL);
+                if(p->left) s.push(p->left);
+                else s.push(NULL);
+                res+=to_string(p->val)+",";
+            }
+            else
+                res+="n,";
+        }
+        return res;
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        if(data=="") return NULL;
+        stack<TreeNode*> s; //用来构建先序
+        vector<string> nums;    //存每个结点的值
+        int n = data.size();
+        string tmp = "";
+        for(int i=0;i<n;i++){
+            if(data[i]==','){
+                nums.push_back(tmp);
+                tmp="";
+            }
+            else tmp+=data[i];
+        }
+        TreeNode *head;
+        int i=0;
+        build(head,nums,i);
+        return head;
+    }
+
+    void build(TreeNode* &root,vector<string>& nums,int &i){
+        if(nums[i]!="n"){
+            root = new TreeNode(stoi(nums[i]));
+            i++;
+            root->left = NULL;
+            root->right = NULL;
+            build(root->left,nums,i);
+            build(root->right,nums,i);
+        }
+        else i++;
+        return;
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec;
+// codec.deserialize(codec.serialize(root));

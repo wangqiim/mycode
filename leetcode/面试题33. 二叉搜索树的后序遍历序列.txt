@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool verifyPostorder(vector<int>& postorder) {  //后序的特点是 小 大 中 [小，大，mid]
+        return ispostorder(postorder,0,postorder.size()-1);
+    }
+
+    bool ispostorder(vector<int>& postorder,int begin,int end){ 
+        if(begin>=end) return true;
+        int i,mid;
+        for(i=begin;i<end;i++){
+            if(postorder[i]>postorder[end]) break;
+        }
+        mid = i; //[begin~(mid-1)] [(mid)~(end-1)]
+        for(;i<end;i++){
+            if(postorder[i]<postorder[end])
+                return false;
+        }
+        return(ispostorder(postorder,begin,(mid-1))&&ispostorder(postorder,mid,(end-1)));
+
+    }
+};
