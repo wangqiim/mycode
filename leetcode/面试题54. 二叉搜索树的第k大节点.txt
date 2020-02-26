@@ -1,0 +1,26 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int res;
+    int kthLargest(TreeNode* root, int k) { //右 中 左的方式遍历
+        search(root,k);
+        return res;
+    }
+
+    void search(TreeNode* root,int& k){
+        if(!root) return;
+        search(root->right,k);
+        if((--k)==0)
+            res = root->val;
+        search(root->left,k);
+        return;
+    }
+};

@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        vector<int> res(2,-1);
+        int n = nums.size();
+        int low=0,high=n-1;
+        int mid;
+        while(low<high){    //找到开始位置
+            mid = low +(high-low)/2;
+            if(nums[mid] == target)
+                high = mid;
+            else if(nums[mid]>target)
+                high = mid;
+            else low = mid+1;
+        }
+        if(n==0||nums[low]!=target) return res;//数组中没有
+        res[0] = low;
+        low = 0,high = n-1;
+        while(low<high){    //找到结束位置
+            mid = low+(high-low+1)/2;
+            if(nums[mid] == target)
+                low = mid;
+            else if(nums[mid]>target)
+                high = mid-1;
+            else
+                low = mid;
+        }
+        res[1] = low;
+        return res;
+    }
+};

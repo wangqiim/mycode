@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<vector<int>> findContinuousSequence(int target) {
+        vector<vector<int>> res;
+        vector<int> nums;
+        int i=1,j=2,s=3;
+        nums.push_back(1);
+        nums.push_back(2);  
+        while(j<target){    //判断从[i~j]是否可以
+            if(s==target){
+                nums.clear();
+                for(int k=i;k<=j;k++)
+                    nums.push_back(k);
+                res.push_back(nums);
+                s-=i;
+                i++;
+            }
+            while(s<target&&j<target){
+                j++;
+                s+=j;
+            }
+            while(s>target&&i<=j){
+                s-=i;
+                i++;
+            }
+        }
+        return res;
+    }
+};

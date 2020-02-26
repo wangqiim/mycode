@@ -1,0 +1,41 @@
+class Solution {
+public:
+    string reverseWords(string s) {
+        reverse(s.begin(),s.end());
+        s+=" "; //方便判断最后一个字符
+        string res="";
+        int n = s.size();
+        int begin=0,end=0;
+        for(int i=0;i<n;i++)    //开始位置
+            if(s[i]!=' '){
+                begin = i;
+                break;
+            }
+        for(int i=n-1;i>=0;i--) //结束位置
+            if(s[i]!=' '){
+                end = i;
+                break;
+            }
+        if(begin>end) return res;
+        int reverse_begin=begin;    //一个单词(包括符号)的开始位置
+        int flag=1; //当前正在扫描字符(防止扫描连续空格)
+        for(int i=begin;i<=end+1;i++){
+            if(s[i]==' '){
+                if(flag==1){   //翻转单词
+                    for(int j=(i-1);j>=reverse_begin;j--)   //将需要翻转的word逆序插入res中
+                        res.push_back(s[j]);
+                    res.push_back(' ');
+                    flag = 0;
+                }
+            }
+            if(s[i]!=' '){
+                if(flag==0){
+                    reverse_begin = i;
+                    flag = 1;
+                }
+            }
+        }
+        res.pop_back();
+        return res;
+    }
+};

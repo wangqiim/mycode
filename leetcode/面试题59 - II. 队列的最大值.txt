@@ -1,0 +1,39 @@
+class MaxQueue {
+public:
+    deque<int> dq;
+    deque<int> maxdq;
+
+    MaxQueue() {
+        dq.clear();
+        maxdq.clear();
+    }
+    
+    int max_value() {
+        if(dq.empty()) return -1;
+        return maxdq.front();
+    }
+    
+    void push_back(int value) {
+        dq.push_back(value);
+        while(!maxdq.empty()&& value>maxdq.back())
+            maxdq.pop_back();
+        maxdq.push_back(value);
+    }
+    
+    int pop_front() {
+        if(dq.empty()) return -1;
+        int val = dq.front();
+        dq.pop_front();
+        if(maxdq.front()==val)
+            maxdq.pop_front();    
+        return val;
+    }
+};
+
+/**
+ * Your MaxQueue object will be instantiated and called as such:
+ * MaxQueue* obj = new MaxQueue();
+ * int param_1 = obj->max_value();
+ * obj->push_back(value);
+ * int param_3 = obj->pop_front();
+ */

@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {  //数组递增排序，因此使用二分法
+        int n = nums.size();
+        int low=0,high=n-1,mid;
+        while(low<high){    //找到第一个下标不对的位置
+            mid = (low+high)/2;
+            if(nums[mid]==mid)
+                low = mid+1;
+            else
+                high=mid;
+        }
+        if(nums[low]==low)
+            return low+1;
+        else
+            return low;
+    }
+};

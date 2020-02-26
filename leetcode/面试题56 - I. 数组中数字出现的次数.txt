@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int n;
+    vector<int> singleNumbers(vector<int>& nums) {
+        n = nums.size();
+        vector<int> res(2,0);
+        int diff=0;
+        for(int i=0;i<n;i++) diff^=nums[i];
+        //diff(a^b)为1的位()表示两个数字不一样的字母,只保留其中一个1
+        int d = ((diff^(diff-1))+1)>>1;
+        for(int i=0;i<n;i++)
+            if(nums[i]&d) res[0]^=nums[i];
+            else res[1]^=nums[i];
+        return res;
+    }
+};

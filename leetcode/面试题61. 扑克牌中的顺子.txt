@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool isStraight(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        int k=0;    //空子个数
+        int king=0; //王可以插空子
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]==0)
+                king++;
+            else{
+                if(i!=0){
+                    if(nums[i]==nums[i-1])
+                        return false;
+                    if(nums[i-1]!=0)
+                        k+=nums[i]-nums[i-1]-1;
+                }
+            }
+        }
+        return king>=k;
+    }
+};

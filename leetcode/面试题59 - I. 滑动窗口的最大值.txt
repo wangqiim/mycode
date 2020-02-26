@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        deque<int> dq;   //双端队列中存的值是数组的下标而不是数值
+        vector<int> res;
+        int n = nums.size();
+        for(int i=0;i<n;i++){
+            if(!dq.empty()&&(i-dq.front())>=k) //头元素是否移除队列
+                dq.pop_front();
+            if(dq.empty())
+                dq.push_back(i);
+            else{   //非空
+                if(nums[i]>=nums[dq.front()]){  //如果是最大值
+                    dq.clear();
+                    dq.push_back(i);
+                }
+                else{//不是最大值，依次和尾元素比
+                    while(nums[i]>=nums[dq.back()]){
+                        dq.pop_back();
+                    }
+                    dq.push_back(i);
+                }
+            }
+            if(i>=k-1) res.push_back(nums[dq.front()]);
+        }
+        return res;
+    }
+};
