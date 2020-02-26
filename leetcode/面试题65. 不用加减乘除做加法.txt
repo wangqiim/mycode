@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int add(int a, int b) { //用位运算模拟加法
+        int res,cf;
+        while(b){
+            res = a^b;  //不进位加法
+            cf = (unsigned int)(a&b)<<1; //cf表示进位
+            a = res;
+            b = cf;
+        }
+        return a;
+    }
+};

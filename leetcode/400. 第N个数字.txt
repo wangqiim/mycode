@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int findNthDigit(int n) {
+        int s[9]={0};//s[i]表示i位数的个数 s[1] = 10;s[2]=90*2=180
+        for(int i=1,k=1;i<9;i++){
+            k*=10;
+            s[i] = k;   //个数
+            for(int j=1;j<i;j++)
+                s[i]-=s[j];
+        }
+        int res;
+        int i,x,y;  //i位数的第x个数的第y位
+        for(i=1;i<9;i++){
+            if(n<=s[i]*i){ //第n个数是否 属于i位数
+                break;
+            }
+            else
+                n-=s[i]*i;
+        }
+        y = n%i;
+        x = n/i;
+        x = x + pow(10,i-1);
+        if(i==1)
+            x--;
+        return to_string(x)[y]-'0';
+    }
+};

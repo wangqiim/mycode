@@ -1,0 +1,19 @@
+bool cmp(string a,string b){
+    return a+b<b+a;
+}
+
+class Solution {
+public:
+    string minNumber(vector<int>& nums) {
+        string res="";
+        int n = nums.size();
+        vector<string> nums_string;
+        for(int i=0;i<n;i++)
+            nums_string.push_back(to_string(nums[i]));
+        sort(nums_string.begin(),nums_string.end(),cmp);
+
+        for(int i=0;i<n;i++)
+            res+=nums_string[i];
+        return res;
+    }
+};

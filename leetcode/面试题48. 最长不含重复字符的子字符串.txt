@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int n = s.size();
+        set<int> hashset;
+        int i=0,j=0;
+        int res=0;
+        while(j<n){ //计算以j结尾的最长不重复子串
+            while(hashset.count(s[j])!=0){  //后移i
+                hashset.erase(hashset.find(s[i]));
+                i++;
+            }
+            hashset.insert(s[j]);
+            j++;
+            res = max(res,j-i);
+        }
+        return res;
+    }
+};

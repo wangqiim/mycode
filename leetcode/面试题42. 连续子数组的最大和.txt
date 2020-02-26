@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int res;
+        int n = nums.size();
+        vector<int> dp(n);  //以i结尾的最大连续子子序列和
+        dp[0]=nums[0];res=dp[0];
+        for(int i=1;i<n;i++){
+            dp[i] = max(dp[i-1]+nums[i],nums[i]);   //转移方程
+            res = max(res,dp[i]);
+        }
+        return res;
+    }
+};

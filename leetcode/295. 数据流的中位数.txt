@@ -1,0 +1,40 @@
+class MedianFinder {
+public:
+    /** initialize your data structure here. */
+    priority_queue<int,vector<int>,less<int>> maxheap;//大顶堆
+    priority_queue<int,vector<int>,greater<int>> minheap;//小顶堆
+    int n;    //目前序列元素的个数
+    MedianFinder() {    //当前序列可以看做[小数序列,大数序列],每次只要左边的最大数字和右边的最小数字即可。
+        n=0;
+    }
+    
+    void addNum(int num) {
+        if((n&1)==0){   //偶数个数时,先插入左边再移动到右边,保证左边的序列都小于右边的
+            maxheap.push(num);
+            minheap.push(maxheap.top());
+            maxheap.pop();
+        }else{  //奇数个时，维持两边数量相等,因此最终目的是插入左边一个数
+            minheap.push(num);
+            maxheap.push(minheap.top());
+            minheap.pop();
+        }
+        n++;
+    }
+    
+    double findMedian() {
+        double res;
+        if((n&1)==0){   //目前序列中有偶数个元素,取平均值
+            res = (maxheap.top()+minheap.top())/2.0;
+        }else{
+            res = minheap.top();
+        }
+        return res;
+    }
+};
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder* obj = new MedianFinder();
+ * obj->addNum(num);
+ * double param_2 = obj->findMedian();
+ */

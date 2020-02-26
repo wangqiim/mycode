@@ -1,0 +1,11 @@
+class Solution {
+public:
+    /*
+    int sumNums(int n) { //等差数列
+        return (n*n+n)/2;
+    }*/
+    int sumNums(int n) { //递归
+        n && (n+=sumNums(n-1));
+        return n;
+    }
+};

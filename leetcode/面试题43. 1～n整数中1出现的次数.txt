@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int countDigitOne(int n) {
+        int res = 0;
+	    long long i = 1;        //从个位开始遍历到最高位
+	    while(n>=i) {
+            long long high = n / (10 * i);  //高位
+            long long cur = (n / i) % 10;   //当前位
+            long long low = n - (n / i) * i; //对应abcde 当i=1时为0,当i为100时,为de
+            if(cur == 0) {
+                res += high * i;    //高位(0~high-1)
+            }else if(cur == 1) {
+                res += high * i + (low + 1); //高位(0~high-1) 或者high（此时低位只能0~low）
+            }else {
+                res += (high + 1) * i;
+            }
+            i*=10;
+        }
+	    return res;
+    }
+};
