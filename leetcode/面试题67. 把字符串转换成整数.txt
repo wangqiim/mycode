@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int strToInt(string str) {        
+        int n = str.size();
+        int i;  //扫描字符串
+        long long res = 0;
+        int op = 1; //符号正负1 -1
+        bool flag=false;   //是否开始判断数字
+        for(i=0;i<n;i++){
+            if(str[i]=='+'||str[i]=='-'){
+                if(flag==false)    //未开始判断数字
+                    op= str[i]=='+'?1:-1;   //符号位
+                else 
+                    break;
+                flag = true;   //标志位
+            }
+            else if(str[i]>='0'&str[i]<='9'){
+                flag = true;
+                res = res*10+str[i]-'0';
+                if(op==1&&res>INT_MAX){
+                    return INT_MAX;
+                }else if(op==-1&&op*res<INT_MIN)
+                    return INT_MIN;
+            }else if(str[i]==' '){   //如果已经开始扫描连续数字了，强制结束，否则跳过
+                if(flag) break;
+                else continue;
+            }
+            else //遇到其他字符，直接强制结束
+                break;
+        }
+        if(op==1&&res>INT_MAX){
+            return INT_MAX;
+        }else if(op==-1&&op*res<INT_MIN)
+            return INT_MIN;
+        else return op*res;
+    }
+};

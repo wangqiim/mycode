@@ -1,0 +1,11 @@
+class Solution {
+public:
+    int lastRemaining(int n, int m) {
+        //f(n,m):序列n(0,1,2,n) 删除第m个后剩下的序列
+        //f(n,m)当n=1时为0  否则为[f(n-1,m)+m]%n
+        int res=0;
+        for(int i=2;i<=n;i++)
+            res = (res+m)%i;
+        return res;
+    }
+};

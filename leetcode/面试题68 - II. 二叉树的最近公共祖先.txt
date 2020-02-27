@@ -1,0 +1,39 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<TreeNode*> path; //用path存结点到祖先的路径，防止重复遍历结点
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        TreeNode* res = NULL;
+        isAncestor(root,p);
+        int n = path.size();
+        isAncestor(root,q);
+        int m = path.size();
+        for(int i=n-1,j=m-1;i>=0&&j>=n;i--,j--)
+            if(path[i]!=path[j])
+                break;
+            else res = path[i];
+        return res;
+    }
+    bool isAncestor(TreeNode* root,TreeNode* p){ //判断root是否是p的祖先,同时存入路径
+        if(!root||!p) return false;
+        if(root == p){
+            path.push_back(root);
+            return true;
+        }
+        else
+            if(isAncestor(root->left,p)||isAncestor(root->right,p)){
+                path.push_back(root);
+                return true;
+            }
+            else
+                return false;
+    }
+};
