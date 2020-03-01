@@ -1,7 +1,38 @@
 class Solution {
 public:
+    vector<int> inc;
+    int first_hi_eq(int l,int r,int k){	//使用二分,返回inc数组[l~r]第一个大于等于k的位置
+        int m;
+        while(l<r){
+            m = l+(r-l)/2;
+            if(inc[m]==k)
+                r = m;
+            else if(inc[m]<k)
+                l = m+1;
+            else
+                r = m;
+        }
+        return l;
+    }
+
+    int lengthOfLIS(vector<int>& nums) {
+        int size = nums.size();
+        if(size == 0)
+            return 0;
+        inc.push_back(nums[0]);
+        for(int i=1;i<size;i++){
+            if(nums[i]>inc.back())
+                inc.push_back(nums[i]);
+            else{
+                int j = first_hi_eq(0,inc.size()-1,nums[i]);
+                //找到inc[]中第一个>=nums[i]的元素的下标j
+                inc[j]=nums[i]; 
+            }
+        }
+        return inc.size();
+    }
     /*
-    int lengthOfLIS(vector<int>& nums) {    //最开始写的代码
+    int lengthOfLIS(vector<int>& nums) {    //最开始写的代码,复杂度O(n^2)
         int size = nums.size();
         vector<int> flag(size,INT_MAX);
         int i,j;
@@ -19,6 +50,7 @@ public:
         }
         return i;
     }*/
+	/*
     int lengthOfLIS(vector<int>& nums) {	//法二：动态规划
         int size = nums.size();
         if(size == 0)
@@ -35,5 +67,6 @@ public:
             res=max(res,dp[i]);
         }
         return res;
-    }
+    }*/
+
 };
