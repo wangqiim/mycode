@@ -1,0 +1,28 @@
+class Solution {
+public:
+    static bool cmp(vector<int>& a,vector<int>& b){
+        int m = a.size();
+        int i;
+        for(i=0;i<m-1;i++)
+            if(a[i]==b[i]) continue;
+            else return a[i]>b[i];
+        return a[i]<b[i];   //因为sort函数是非稳定排序,所以判断字母顺序
+    }
+
+    string rankTeams(vector<string>& votes) {
+        int n = votes.size();   //n个人进行投票
+        int m = votes[0].size();    //每个人投m票
+        vector<vector<int> > nums(26,vector<int>(m+1,0));   //最后一个数字用来存放字符
+        for(int i=0;i<26;i++)
+            nums[i][m] = i; 
+        for(int i=0;i<n;i++)
+            for(int j=0;j<m;j++){
+                nums[votes[i][j]-'A'][j]++; //投票
+            }
+        sort(nums.begin(),nums.end(),cmp);
+        string res = "";
+        for(int i=0;i<m;i++)    //得票最高的前m个人
+            res.push_back('A'+nums[i][m]);
+        return res;
+    }
+};
