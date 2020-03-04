@@ -1,0 +1,37 @@
+typedef pair<int,int> pp; 
+int dx[5] = {0,0, 0,1,-1};
+int dy[5] = {0,1,-1,0, 0};
+
+class Solution {
+public:
+    int minCost(vector<vector<int>>& grid) {
+        int m = grid.size(),n = grid[0].size();
+        vector<vector<bool>> visit(m,vector<bool>(n,false));
+        vector<vector<int>> ds(m,vector<int>(n,0x7fffffff));
+        priority_queue<pp,vector<pp>,greater<pp>> pq;
+        pq.push(make_pair(0,0));
+        pp tp;
+        while(!pq.empty()){
+            tp = pq.top();
+            pq.pop();
+            int x = tp.second/n;
+            int y = tp.second%n;
+            int d = tp.first;
+            if(x==m-1&&y==n-1) return d;
+            if(visit[x][y]) continue;
+            visit[x][y] = true;
+            for(int i=1;i<=4;i++){
+                int xx=x+dx[i],yy=y+dy[i];
+                if(xx<0||yy<0||xx>=m||yy>=n) continue;
+                if(visit[xx][yy]==false){
+                    int nd = i==grid[x][y]?d:d+1;
+                    if(nd<ds[xx][yy]){
+                        ds[xx][yy] = nd;
+                        pq.push(make_pair(nd,xx*n+yy));
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+};
