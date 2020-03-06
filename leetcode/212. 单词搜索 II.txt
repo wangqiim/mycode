@@ -1,0 +1,60 @@
+struct trienode{
+    bool isend=false;
+    string v = "";
+    trienode* next[26];  
+};
+
+int dx[4] = {0, 0,1,-1};   //右左下上
+int dy[4]= {1,-1,0, 0};
+
+class Solution {
+public:
+    trienode *root = new trienode();
+    vector<vector<bool> > visit;
+    vector<vector<char> > G;
+    vector<string> res;
+    int m,n;
+    
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        m = board.size(); n = board[0].size();
+        G = board;
+        visit = vector<vector<bool> >(m,vector<bool>(n,false));
+        for(int i=0;i<words.size();i++)
+            insert(words[i]);
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                find(i,j,root);
+            }
+        }
+        return res;
+    }
+
+    void insert(string word){
+        trienode *p = root;
+        for(int i=0;i<word.size();i++){
+            if(p->next[word[i]-'a']==NULL)
+                p->next[word[i]-'a'] = new trienode();
+            p = p->next[word[i]-'a'];
+        }
+        p->isend = true;
+        p->v = word;
+        return;
+    }
+
+    void find(int x,int y,trienode* p){
+        if(x<0||y<0||x==m||y==n||visit[x][y]==true)
+            return;
+        if(p->next[G[x][y]-'a']==NULL)
+            return;
+        p = p->next[G[x][y]-'a'];
+        visit[x][y] = true;
+        if(p->isend==true){
+            p->isend = false;
+            res.push_back(p->v);
+        }
+        for(int i=0;i<4;i++)
+            find(x+dx[i],y+dy[i],p);
+        visit[x][y] = false;
+        return;
+    }
+};

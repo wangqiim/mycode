@@ -1,0 +1,56 @@
+struct Trienode{
+    bool is_string = false; 是否是结尾
+    Trienode next[26] = {NULL};
+};
+
+class Trie {
+public
+    Trienode root;
+     Initialize your data structure here. 
+    
+    Trie() {
+        root = new Trienode();
+    }
+    
+     Inserts a word into the trie. 
+    void insert(string word) {
+        Trienode p = root;
+        for(int i=0;iword.size();i++){
+            if(p-next[word[i]-'a']==NULL)
+                p-next[word[i]-'a'] = new Trienode();
+            p = p-next[word[i]-'a'];
+        }
+        p-is_string = true;
+        return;
+    }
+    
+     Returns if the word is in the trie. 
+    bool search(string word) {
+        Trienode p = root;
+        for(int i=0;iword.size();i++){
+            if(p-next[word[i]-'a']==NULL)
+                return false;
+            p = p-next[word[i]-'a'];
+        }
+        return p-is_string;
+    }
+    
+     Returns if there is any word in the trie that starts with the given prefix. 
+    bool startsWith(string prefix) {
+        Trienodep =root;
+        for(int i=0;iprefix.size();i++){
+            if(p-next[prefix[i]-'a']==NULL)
+                return false;
+            p = p-next[prefix[i]-'a'];
+        }
+        return true;
+    }
+};
+
+
+  Your Trie object will be instantiated and called as such
+  Trie obj = new Trie();
+  obj-insert(word);
+  bool param_2 = obj-search(word);
+  bool param_3 = obj-startsWith(prefix);
+ 

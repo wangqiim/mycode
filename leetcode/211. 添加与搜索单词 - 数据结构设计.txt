@@ -1,0 +1,55 @@
+struct trienode{
+    bool isend = false;
+    trienode* next[26]={NULL};
+};
+
+class WordDictionary {
+public:
+    trienode* root;
+    int n = 0;
+    /** Initialize your data structure here. */
+    WordDictionary() {
+        root = new trienode();
+    }
+    
+    /** Adds a word into the data structure. */
+    void addWord(string word) {
+        trienode *p = root;
+        for(int i=0;i<word.size();i++){
+            if(p->next[word[i]-'a']==NULL)
+                p->next[word[i]-'a'] = new trienode();
+            p = p->next[word[i]-'a'];
+        }
+        p->isend = true;
+        return;
+    }
+    
+    /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
+    bool search(string word) {
+        trienode* p = root;
+        n = word.size();
+        return dfs(p,0,word);
+    }
+
+    bool dfs(trienode* p,int i,string& word){
+        if(i==n)
+            return p->isend;
+        char c = word[i];
+        if(c!='.'){
+            if(p->next[c-'a']==NULL) return false;
+            else return dfs(p->next[c-'a'],i+1,word);
+        }else{
+            for(int j=0;j<26;j++)
+                if(p->next[j]!=NULL&&dfs(p->next[j],i+1,word))
+                    return true;
+            return false;
+        }
+    }
+};
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary* obj = new WordDictionary();
+ * obj->addWord(word);
+ * bool param_2 = obj->search(word);
+ */

@@ -1,6 +1,30 @@
 class Solution {
 public:
-    vector<vector<int>> findContinuousSequence(int target) {
+    vector<vector<int>> findContinuousSequence(int target) { //法一:前缀和+哈希
+        vector<vector<int> > res;
+        if(target == 1) return res;
+        vector<int> nums; 
+        map<long long,int> hashmap;
+        long long acc = 0;
+        hashmap[acc] = 1;
+        for(int i=1;i<=target;i++){
+            acc += i;
+            int k = acc - target;
+            if(hashmap.count(k)&&hashmap[k]<i){
+                nums.clear();
+                for(int j=hashmap[k];j<=i;j++)
+                    nums.push_back(j);
+                res.push_back(nums);
+            }
+            hashmap[acc]=i+1;
+        }
+        return res;
+    }
+};
+/*
+class Solution {
+public:
+    vector<vector<int>> findContinuousSequence(int target) {//法二:双指针滑动窗口
         vector<vector<int>> res;
         vector<int> nums;
         int i=1,j=2,s=3;
@@ -26,4 +50,4 @@ public:
         }
         return res;
     }
-};
+};*/
