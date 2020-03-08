@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<int> nums;
+    int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime) {
+        int size = manager.size();//一共有size名员工
+        nums = vector<int>(size,-1);//每名员工收到消息需要的时间
+        int res = 0;
+        for(int i=0;i<size;i++){
+            dfs(i,manager,informTime);
+            res = max(res,nums[i]);
+        }
+        return res;
+    }
+
+    int dfs(int i,vector<int>& manager,vector<int>& informTime){
+        if(nums[i]!=-1) return nums[i];
+        if(manager[i]==-1){
+            nums[i] = 0;
+            return nums[i];
+        }
+        nums[i] = dfs(manager[i],manager,informTime)+informTime[manager[i]];
+        return nums[i];
+        
+    }
+};

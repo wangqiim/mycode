@@ -1,0 +1,14 @@
+class Solution {
+public:
+    string generateTheString(int n) {
+        string res;
+        if((n&1)==1)    //奇数
+            while(n--) res.push_back('a');
+        else{
+            for(int i=1;i<n;i++)
+                res.push_back('a');
+            res.push_back('b');           
+        }
+        return res;
+    }
+};

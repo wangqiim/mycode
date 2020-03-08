@@ -1,0 +1,27 @@
+class Solution {
+public:
+    map<int,int> hashmap; //hashmap[00100]表示有奇数个i最早出现的位置
+    int findTheLongestSubstring(string s) {
+        int n = s.size();
+        int acc = 0;
+        hashmap[acc] = -1;
+        int res=0;
+        for(int i=0;i<n;i++){
+            if(s[i]=='a'){
+                acc^=16;    //把第一位取反
+            }else if(s[i]=='e'){
+                acc^=8;
+            }else if(s[i]=='i'){
+                acc^=4;
+            }else if(s[i]=='o'){
+                acc^=2;
+            }else if(s[i]=='u'){
+                acc^=1;
+            }
+            if(hashmap.count(acc)==0)
+                hashmap[acc]=i;
+            res = max(res,i-hashmap[acc]);
+        }
+        return res;
+    }
+};
