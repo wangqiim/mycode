@@ -1,0 +1,94 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+#define MP(a,b,c,d) make_pair(make_pair(a,b),make_pair(c,d));
+#define PIIBI pair<pair<int, int>, pair<bool, int>>
+class Solution {
+public:
+    int res=0;
+    PIIBI dfs(TreeNode* rt){    //返回该子树的最小值最大值是否是二叉搜索树当前子树和
+        if(!rt) return MP(0x7fffffff,-0x7fffffff,true,0);
+        PIIBI l = dfs(rt->left);
+        PIIBI r = dfs(rt->right); 
+        if(l.second.first==false||r.second.first==false||rt->val<=l.first.second||rt->val>=r.first.first)
+            return MP(0,0,false,0);
+        int s=rt->val+l.second.second+r.second.second;
+        res=max(s,res);
+        int ma = max(rt->val,max(l.first.second,r.first.second));
+        int mi = min(rt->val,min(l.first.first,r.first.first));
+        return MP(mi,ma,true,s);
+    }
+
+    int maxSumBST(TreeNode* root) {
+        if(!root) return 0;
+        dfs(root);
+        return res;
+    }
+};
+
+/* //丑陋的后序遍历中序记录索引
+class Solution {
+public:
+    int isvalid=-50000;  //把不是二叉搜索树的根节点赋值为isvalid
+    int node_min[40004]; //对应结点的子树中的最小值
+    int node_max[40004]; //对应结点的子树中的最大值
+    int cnt = 0;
+    int ans = 0;
+    int maxSumBST(TreeNode* root) {
+        search_tree(root);
+        dfs(root);
+        return ans;
+    }
+    
+    bool search_tree(TreeNode* root){   //后序遍历
+        if(!root) return true;
+        bool res = true;
+        if(root->left)//左子树存在
+            res&=search_tree(root->left);
+        int last = cnt-1;  //记录左孩子的标号 
+        if(root->right)   //右子树存在
+            res&=search_tree(root->right);
+        node_min[cnt] = node_max[cnt] = root->val;
+        if(root->left){
+            node_min[cnt]=min(node_min[cnt],node_min[last]);
+            node_max[cnt]=max(node_max[cnt],node_max[last]);
+            if(root->val<=node_max[last])
+                res = false;
+        }
+        if(root->right){
+            node_min[cnt]=min(node_min[cnt],node_min[cnt-1]);
+            node_max[cnt]=max(node_max[cnt],node_max[cnt-1]);
+            if(root->val>=node_min[cnt-1])
+                res = false;
+        }
+        if(res==false)
+            root->val = isvalid;
+        cnt++;
+        return res;
+    }
+    
+    int sum_dfs(TreeNode* root){
+        if(!root) return 0;
+        int res = root->val+sum_dfs(root->left)+sum_dfs(root->right);
+        ans = max(ans,res);
+        return res;
+    }
+    
+    void dfs(TreeNode* root){
+        if(!root) return;
+        if(root->val == isvalid){
+            dfs(root->left);
+            dfs(root->right);
+        }else{
+            sum_dfs(root);
+        }
+        return;
+    }
+};
+*/
