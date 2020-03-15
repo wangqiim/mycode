@@ -1,0 +1,38 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int nums[10004];
+    int len;
+    TreeNode* balanceBST(TreeNode* root) {  //得到的序列从中间开始插入元素
+        len = 0;
+        inorder(root);
+        TreeNode* rt;
+        erfeninsert(rt,0,len-1);
+        return rt;
+    }
+    
+    void inorder(TreeNode* rt){
+        if(!rt) return;
+        inorder(rt->left);
+        nums[len++] = rt->val;
+        inorder(rt->right);
+        return;
+    }
+    
+    void erfeninsert(TreeNode*& rt,int l,int r){
+        if(l>r) return;
+        int mid = (l+r)/2;
+        rt = new TreeNode(nums[mid]);
+        erfeninsert(rt->right,mid+1,r);
+        erfeninsert(rt->left,l,mid-1);
+        return;
+    }
+};

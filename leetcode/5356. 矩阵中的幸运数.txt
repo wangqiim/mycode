@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<int> luckyNumbers (vector<vector<int>>& matrix) {
+        vector<int> res;
+        int m = matrix.size(),n = matrix[0].size();
+        vector<int> min_row(m); //每一行最小的元素的下标
+        for(int i=0;i<m;i++){
+            int min_m = 0x7fffffff;  //第i行最小的数
+            int min_j = 0;
+            for(int j=0;j<n;j++){
+                if(matrix[i][j]<min_m){
+                    min_j = j;
+                    min_m = matrix[i][j];
+                }
+            }
+            min_row[i] = min_j;
+        }
+        for(int j=0;j<n;j++){
+            int max_n = 0;
+            int max_i = 0;
+            for(int i=0;i<m;i++){
+                if(matrix[i][j]>max_n){
+                    max_i = i;
+                    max_n = matrix[i][j];
+                }
+            }
+            if(j==min_row[max_i])
+                res.push_back(max_n);
+        }
+        return res;
+    }
+};

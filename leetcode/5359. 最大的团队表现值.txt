@@ -1,0 +1,37 @@
+#define PII pair<int,int>
+struct node{
+    int s;
+    int e;
+}nums[100005];
+//先按效率降序，效率相同再按速度降序
+bool cmp(node a,node b){
+    if(a.e != b.e)
+        return a.e>b.e; 
+    else
+        return a.s>b.s;
+}
+class Solution {
+public:
+    int maxPerformance(int n, vector<int>& speed, vector<int>& efficiency, int k) {
+        long long res = 0;
+        int mod = 1e9+7;
+        for(int i=0;i<n;i++){
+            nums[i].s = speed[i];
+            nums[i].e = efficiency[i];
+        }
+        sort(nums,nums+n,cmp);
+        priority_queue<int,vector<int>,greater<int> > pq;        
+        long long sum = 0;
+        
+        for(int i=0;i<n;i++){
+            sum += nums[i].s;
+            pq.push(nums[i].s);            
+            if(i>=k){
+                sum -= pq.top();
+                pq.pop();
+            } 
+            res = max(res,nums[i].e*sum);
+        }
+        return res%mod;
+    }
+};
