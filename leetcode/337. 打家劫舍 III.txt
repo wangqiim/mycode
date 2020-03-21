@@ -1,0 +1,53 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+#define PII pair<int,int>
+#define MP(a,b) make_pair((a),(b))
+class Solution {
+public:
+    int rob(TreeNode* root) {
+        PII res = postorder(root);
+        return max(res.first,res.second);
+    }
+    
+    PII postorder(TreeNode* rt){    
+        //first表示不偷这个点的最大子树收益,second表示偷这个点的最大子树收益
+        if(!rt) return MP(0,0); 
+        PII left = postorder(rt->left);
+        PII right = postorder(rt->right);
+        PII res;
+        //不偷rt
+        res.first = max(left.first,left.second) + max(right.first,right.second);
+        //偷rt
+        res.second = rt->val + left.first + right.first;
+        return res;
+    }
+};
+
+/*
+class Solution {
+public:
+    int rob(TreeNode* root) {   //法一:暴力超时
+        return myfunc(root);
+    }
+    
+    int myfunc(TreeNode* rt){
+        if(!rt) return 0;
+        //偷rt,则rt->left和rt->right不能偷
+        int rob = rt->val;
+        if(rt->left) 
+            rob += myfunc(rt->left->left)+myfunc(rt->left->right);
+        if(rt->right) 
+            rob += myfunc(rt->right->left)+myfunc(rt->right->right);
+        //不偷,则两个儿子可以偷
+        return max(rob,myfunc(rt->left)+myfunc(rt->right));
+    }
+};
+*/
