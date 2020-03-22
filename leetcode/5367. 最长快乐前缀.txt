@@ -1,0 +1,14 @@
+class Solution {
+public:
+    string longestPrefix(string s) {
+        int n = s.size();
+        vector<int> next(n+1);  //next[a] = b ,s[~a-1]和a[0~(b-1)]相等
+        for(int i=1,j=0;i<n;i++){
+            while(s[i]!=s[j]&&j!=0)
+                j = next[j];
+            if(s[i]==s[j])
+                next[i+1] = ++j;
+        }
+        return s.substr(0,next[n]);
+    }
+};

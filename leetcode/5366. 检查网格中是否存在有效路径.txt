@@ -1,0 +1,45 @@
+int dx[5]={0,-1,0,1, 0};  //上右下左
+int dy[5]={0, 0,1,0,-1};
+int direct[7][5];   //direct[4][2]=1表示图4可以向上走
+class Solution {
+public:
+    queue<pair<int,int>> que;
+    bool vis[301][301];   //false没访问过
+    bool hasValidPath(vector<vector<int>>& grid) {
+        direct[1][2] = direct[1][4] = 1;
+        direct[2][1] = direct[2][3] = 1;
+        direct[3][4] = direct[3][3] = 1;
+        direct[4][2] = direct[4][3] = 1;
+        direct[5][1] = direct[5][4] = 1;
+        direct[6][1] = direct[6][2] = 1;
+        int res = false;
+        int pre=0;
+        int m=grid.size();
+        int n=grid[0].size();
+        que.push(make_pair(0,0));
+        vis[0][0] = true;
+        while(!que.empty()){
+            int x = que.front().first;
+            int y = que.front().second;
+            que.pop();
+            if(x==m-1&&y==n-1){
+                res = true;
+                break;
+            }
+            for(int i=1;i<=4;i++){
+                int xx = x+dx[i], yy = y+dy[i];
+                if(xx<0||yy<0||xx>=m||yy>=n||vis[xx][yy])
+                    continue;
+                int j;
+                if(i==1||i==3) j = 4-i;
+                else j = 6-i;
+                if(direct[grid[x][y]][i]&&direct[grid[xx][yy]][j]){
+                    que.push(make_pair(xx,yy));
+                    vis[xx][yy] = true;
+                }
+            }
+        }
+        return res;
+    }
+
+};

@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<pair<int,int> > nums;
+    int cp_w(int n){
+        int res = 0;
+        while(n!=1){
+            if((n&1)){
+                n=3*n+1;
+            }else{
+                n>>=1;
+            }
+            res++;
+        }
+        return res;
+    }
+    int getKth(int lo, int hi, int k) {
+        for(int i=lo;i<=hi;i++){
+            nums.push_back(make_pair(cp_w(i),i));
+        }
+        sort(nums.begin(),nums.end());
+        return nums[k-1].second;
+    }
+};

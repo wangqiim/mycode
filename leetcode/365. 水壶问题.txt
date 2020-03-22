@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int gcd(int a,int b){
+        if(b==0)
+            return a;
+        return gcd(b,a%b);
+    }
+    bool canMeasureWater(int x, int y, int z) {
+        //ax+by = z  ,a,b>0说明进行了a,b次倒入操作,小于0则说明进行了b次倒入操作
+        //1.不可能两个同时不满
+        //2.把不满的倒入水槽或者倒满没有意义。
+        //而贝祖定理告诉我们,ax+by=z 有解当且仅当 z 是x,y的最大公约数的倍数。
+        //因此我们只需要找到x,y的最大公约数并判断 z 是否是它的倍数即可。
+        if(x+y<z)
+            return false;
+        if(z==0) return true;
+        if(x==0||y==0) return x+y==z;
+        return (z%gcd(x,y))==0?true:false;
+    }
+};
