@@ -1,0 +1,20 @@
+class Solution {
+public:
+    void hanota(vector<int>& A, vector<int>& B, vector<int>& C) {
+        dfs(A,A.size(),C,B);
+        return;
+    }
+
+    void dfs(vector<int>& src,int n, vector<int>& des, vector<int>& mid){
+        //利用中介mid把src移动到des上
+        if(n == 1){
+            des.push_back(src.back());
+            src.pop_back();
+            return;
+        }
+        dfs(src,n-1,mid,des);       //把src上的n-1个移动到mid上
+        des.push_back(src.back());  //把src的最后一个移动到des上
+        src.pop_back();    
+        dfs(mid,n-1,des,src);       //把mid上的n-1个移动到des上
+    }
+};

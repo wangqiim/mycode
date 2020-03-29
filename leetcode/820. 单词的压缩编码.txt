@@ -1,0 +1,34 @@
+class Solution {
+    struct Trienode{
+    Trienode* next[26] = {NULL};
+    }*root;
+
+void insert(string word) {
+    Trienode *p = root;
+    int flag = 0;
+    for(int i=word.size()-1;i>=0;i--){
+        if(p->next[word[i]-'a']==NULL){
+            p->next[word[i]-'a'] = new Trienode();
+            flag = 1;
+        }
+        p = p->next[word[i]-'a'];
+    }
+    if(flag)
+        res+=word.size()+1;
+    return;
+}
+int res;
+static bool cmp(string a,string b){
+    return a.size()>b.size();
+}
+public:
+    int minimumLengthEncoding(vector<string>& words) {
+        res = 0;
+        root = new Trienode();
+        int n = words.size();
+        sort(words.begin(),words.end(),cmp);
+        for(int i=0;i<n;i++)
+            insert(words[i]);
+        return res;
+    }
+};
