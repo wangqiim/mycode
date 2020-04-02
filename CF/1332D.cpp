@@ -2,15 +2,24 @@
 #include<algorithm>
 using namespace std;
 
-int dp[4][5];
-int a[4][5]={{},{0,7,3,3,1},{0,4,8,3,6},{0,7,3,3,3}};
+int a[4][4];
+int flag = 0x20000;
 
 int main(){
-	dp[0][1] = 7;
+	int k;
+	scanf("%d",&k);
+	printf("3 3\n");
+	a[1][1] = k|flag;
+	a[1][2] = k;
+	a[2][1] = k|flag;
+	a[2][2] = k;
+	a[3][1] = flag;
+	a[3][2] = k|flag;
+	a[3][3] = k;
 	for(int i=1;i<=3;i++){
-		for(int j=1;j<=4;j++){
-			dp[i][j] = max(dp[i-1][j]&a[i][j],dp[i][j-1]&a[i][j]);
+		for(int j=1;j<=3;j++){
+			printf("%d ",a[i][j]);
 		}
-	}
-	printf("%d",dp[3][4]);
+		putchar('\n');
+	}	
 }
