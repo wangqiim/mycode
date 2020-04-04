@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int hash[1000]; //和为i的个数
+    int cnt[10000];  //个数为i的集合的数量
+    void solve(int n){
+        int res = 0;
+        while(n){
+            res+= n%10;
+            n /= 10;
+        }
+        hash[res]++;
+    }
+    int countLargestGroup(int n) {
+        for(int i=1;i<=n;i++)
+            solve(i);
+        int res = 0;
+        for(int i=1;i<1000;i++)
+            cnt[hash[i]]++;
+        int max_group = 1;
+        for(int i=9999;i>0;i--){
+            if(cnt[i]){
+                res = cnt[i];
+                break;
+            }
+        }
+        return res;
+    }
+};

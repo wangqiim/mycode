@@ -1,0 +1,18 @@
+class Solution {
+public:
+    bool canConstruct(string s, int k) {
+        int letter[26] = {0};
+        int n = s.size();
+        for(int i=0;i<n;i++)
+            letter[s[i]-'a']++;
+        int odd = 0;
+        for(int i=0;i<26;i++){
+            if((letter[i]%2)==1)
+                odd++;
+        }
+        bool res = true;
+        if(k>n||odd>k)
+            res = false;
+        return res;
+    }
+};
