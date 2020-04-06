@@ -3,9 +3,9 @@ public:
     bool checkOverlap(int radius, int x_center, int y_center, int x1, int y1, int x2, int y2) {//https://www.zhihu.com/question/24251545
         double cx = (x1 + x2) / 2;
         double cy = (y1 + y2) / 2;
-        pair<int,int> v = {abs(x_center - cx), abs(y_center - cy)};
-        pair<int,int> h = {x2 - cx, y2 - cy};
-        pair<int,int> u = {max(0,v.first-h.first),max(0,v.second-h.second)};
+        pair<double,double> v = {abs(x_center - cx), abs(y_center - cy)};
+        pair<double,double> h = {x2 - cx, y2 - cy};
+        pair<double,double> u = {max(0.0,v.first-h.first),max(0.0,v.second-h.second)};
         return u.first * u.first + u.second * u.second <= radius * radius;
     }
 };

@@ -1,0 +1,78 @@
+struct node{
+    int key;
+    int value;
+    int time;
+};
+
+class LFUCache {
+public:
+    vector<list<node> > lists;    //每个链表，头部为最近的，尾部为最久。
+    unordered_map<int,list<node>::iterator> hashmap;	//key
+    int n;
+    int capacity;
+    int size;   //当前元素个数
+    int mintime;
+
+    LFUCache(int capacity) {
+        this->capacity = capacity;
+        lists.clear();
+        lists.push_back(list<node>());
+        lists.push_back(list<node>());
+        hashmap.clear();
+        size = 0;
+        mintime = 0;
+        n = 1;
+    }
+
+    int get(int key) {
+        auto it = hashmap.find(key);
+        if(it==hashmap.end())
+            return -1;
+        else{
+            int tt = it->second->time;
+            int value = it->second->value;
+            lists[tt].erase(it->second);
+            if(tt+1>n) lists.push_back(list<node>());
+            lists[tt+1].push_front({key,value,tt+1});
+            hashmap[key] = lists[tt+1].begin();
+            if(lists[mintime].size()==0)
+                mintime++;
+            return value;  
+        }
+    }
+    
+    void put(int key, int value) {
+        if(capacity==0)
+            return;
+        auto it = hashmap.find(key);
+        if(it!=hashmap.end()){ 
+            int tt = it->second->time;
+            lists[tt].erase(it->second);
+            if(tt+1>n) lists.push_back(list<node>());
+            lists[tt+1].push_front({key,value,tt+1});
+            hashmap[key] = lists[tt+1].begin();
+            if(lists[mintime].size()==0)
+                mintime++;//更新minsize
+        }else{  //无
+            if(size == capacity){   //需要删除
+                auto erase_it = lists[mintime].end();
+                erase_it--;
+                hashmap.erase(hashmap.find(erase_it->key));
+                lists[mintime].erase(erase_it);
+            }else{
+                size++;
+            }
+            mintime = 1;
+            lists[1].push_front({key,value,1});
+            hashmap[key] = lists[1].begin();
+        }
+        return;
+    }
+};
+
+/**
+ * Your LFUCache object will be instantiated and called as such:
+ * LFUCache* obj = new LFUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
