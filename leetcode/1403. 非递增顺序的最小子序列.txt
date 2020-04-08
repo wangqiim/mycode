@@ -1,0 +1,24 @@
+#define PII pair<int,int>
+
+bool cmp(int a,int b){
+    return a>b;
+}
+
+class Solution {
+public:
+    vector<int> minSubsequence(vector<int>& nums) {
+        int n = nums.size();
+        sort(nums.begin(),nums.end(),cmp);
+        int sum = 0;
+        for(int i=0;i<n;i++) sum+=nums[i];
+        int len=0;
+        for(int i=0,s=0;i<n;i++){
+            s += nums[i];
+            len++;
+            if(s>sum-s)
+                break;
+        }
+        vector<int> res(nums.begin(),nums.begin()+len);
+        return res;
+    }
+};

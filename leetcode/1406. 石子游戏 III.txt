@@ -1,0 +1,19 @@
+
+class Solution {
+public:
+    string stoneGameIII(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n+2,-0x80000000);  //从第i个开始拿，最多赢多少分
+        dp[n+1] = 0;
+        for(int i=n;i>=1;i--){
+            dp[i] = max(dp[i],-(dp[i+1]-nums[i-1]));
+            if(i<=n-1) dp[i] = max(dp[i],-(dp[i+2]-nums[i-1]-nums[i]));
+            if(i<=n-2) dp[i] = max(dp[i],-(dp[i+3]-nums[i-1]-nums[i]-nums[i+1]));
+        }
+        string res;
+        if(dp[1]>0) res = "Alice";
+        else if(dp[1]<0)  res = "Bob";
+        else res = "Tie";
+        return res;
+    }
+};

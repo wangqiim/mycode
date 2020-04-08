@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int numSteps(string s) {
+        int cf = 0,res = 0;
+        while(!(s=="1"&&cf!=1)){
+            if(cf==1)
+                if(s=="") break;
+                else if(s.back()=='0') s.back()='1';
+                else s.pop_back();
+            else
+                if(s.back()=='1') cf++;
+                else  s.pop_back();
+            res++;
+        }
+        return res;
+    }
+};

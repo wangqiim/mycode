@@ -1,0 +1,83 @@
+#define MAX(a,b,c) max((a),max((b),(c)))
+class Solution {
+public:
+    string res;
+    char pre;
+
+    bool solve(int &a,int &b,int &c){
+        if(MAX(a,b,c)==0) return false;
+        bool ans = true;
+        if(a==MAX(a,b,c)){
+            if(pre=='a'){//已经消耗a了
+                if(b){
+                    res.push_back('b');
+                    b--;
+                    pre = 'b';
+                }else if(c){
+                    res.push_back('c');
+                    c--;
+                    pre = 'c';
+                }else
+                    ans = false;
+            }else{
+                a--;
+                res.push_back('a');
+                if(a!=0){
+                    a--;
+                    res.push_back('a');
+                }
+                pre = 'a';
+            }
+        }else if(b==MAX(a,b,c)){
+            if(pre=='b'){//已经消耗b了
+                if(a){
+                    res.push_back('a');
+                    a--;
+                    pre = 'a';
+                }else if(c){
+                    res.push_back('c');
+                    c--;
+                    pre = 'c';
+                }else
+                    ans = false;
+            }else{
+                b--;
+                res.push_back('b');
+                if(b!=0){
+                    b--;
+                    res.push_back('b');
+                }
+                pre = 'b';
+            }
+        }else{
+            if(pre=='c'){//已经消耗c了
+                if(b){
+                    res.push_back('b');
+                    b--;
+                    pre = 'b';
+                }else if(a){
+                    res.push_back('a');
+                    a--;
+                    pre = 'a';
+                }else
+                    ans = false;
+            }else{
+                c--;
+                res.push_back('c');
+                if(c!=0){
+                    c--;
+                    res.push_back('c');
+                }
+                pre = 'c';
+            }
+        }
+        return ans;
+    }
+    string longestDiverseString(int a, int b, int c) {
+        res = "";
+        pre = 'd';
+        while(solve(a,b,c))
+            ;
+        return res;
+    }
+};

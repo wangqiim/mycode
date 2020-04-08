@@ -32,6 +32,8 @@ void pushdown(int x){	//把懒标记推到孩子上
 void rotate(int x){	//x向上旋转一步 
 	int y = t[x].ff;	//y是x的父亲 
 	int z = t[y].ff;	//z是y的爷爷 
+	pushdown(y);
+	pushdown(x);
 	int k = t[y].ch[1]==x; //k=0,x是左孩子，k=1,x是右孩子
 	t[z].ch[t[z].ch[1]==y] = x;//y的位置会变成x 技巧:t[z].ch[1]==y的值表示了y是左右孩子
 	t[x].ff = z;	//x的父亲变成z
