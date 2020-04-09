@@ -1,0 +1,22 @@
+class Solution {
+public:
+    string removeKdigits(string num, int k) {
+        int K = k;
+        string res(num);
+        int len = 0;
+        int n = num.size();
+        for(int i=0;i<=n;i++){
+            while(k&&len!=0&&res[len-1]>num[i]){
+                len--;
+                k-=1;
+            }
+            res[len++]=num[i];
+        }
+        int begin = 0;
+        for(;begin<n-k;begin++)
+            if(res[begin]!='0')
+                break;
+        if(n-K-begin==0) return "0";
+        else return res.substr(begin,n-K-begin);
+    }
+};
