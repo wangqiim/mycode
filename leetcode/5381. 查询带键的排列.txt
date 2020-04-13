@@ -1,0 +1,19 @@
+int location[1003];
+
+class Solution {
+public:
+    vector<int> processQueries(vector<int>& queries, int m) {
+        int n = queries.size();
+        vector<int> res;
+        for(int i=1;i<=m;i++) location[i] = i-1;
+        for(int i=0;i<n;i++){
+            int l = location[queries[i]];
+            res.push_back(l);
+            location[queries[i]] = -1;
+            for(int j=1;j<=m;j++)
+                if(location[j]<l)
+                    location[j]++;
+        } 
+        return res;
+    }
+};

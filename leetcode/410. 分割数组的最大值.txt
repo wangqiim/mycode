@@ -1,0 +1,21 @@
+long long dp[51][1001];   //dp[i][j]前j个数组成i组的最大值
+long long acc[1001];
+class Solution {
+public:
+    int splitArray(vector<int>& nums, int m) {
+        int n = nums.size();
+        acc[0] = 0;
+        for(int i=0;i<n;i++)
+            acc[i+1] = acc[i]+nums[i];
+        for(int j=1;j<=n;j++)
+            dp[1][j] =  acc[j];
+        for(int i=2;i<=m;i++){
+            for(int j=i;j<=n;j++){
+                dp[i][j] = 0x7fffffffffffffff;
+                for(int k=1;j-k>=i-1;k++) //第i组拿了k个
+                    dp[i][j] = min(dp[i][j],max(dp[i-1][j-k],acc[j]-acc[j-k]));
+            }
+        }
+        return dp[m][n];
+    }
+};
