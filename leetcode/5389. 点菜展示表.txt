@@ -1,0 +1,35 @@
+class Solution {
+public:
+    set<string> fooditems;  //菜名
+    set<int> tablenumber;   //桌号
+    map<pair<string,string>,int> food_table;   //菜名_桌号
+    vector<vector<string>> displayTable(vector<vector<string>>& orders) {
+        int n = orders.size();
+        for(int i=0;i<n;i++){
+            fooditems.insert(orders[i][2]);
+            tablenumber.insert(stoi(orders[i][1]));
+            food_table[{orders[i][2],orders[i][1]}]++;
+        }
+        vector<vector<string>> res(tablenumber.size()+1,vector<string>(fooditems.size()+1));
+        int row = 0;
+        int col = 0;
+        for(auto i = tablenumber.begin();i!=tablenumber.end();i++,row++){
+            col = 0;
+            if(i==tablenumber.begin()){
+                res[row][col++] = "Table";
+                int index = 1;
+                for(auto j=fooditems.begin();j!=fooditems.end();j++,col++){
+                    res[row][col] = *j;
+                }
+                row++;
+                col = 0;
+            }
+            for(auto j=fooditems.begin();j!=fooditems.end();j++,col++){
+                if(j==fooditems.begin())
+                    res[row][col++] = to_string(*i);
+                res[row][col] = to_string(food_table[{*j,to_string(*i)}]);
+            }
+        }
+        return res;
+    }
+};

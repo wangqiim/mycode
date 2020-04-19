@@ -1,0 +1,32 @@
+const int maxn = 10004;
+int acc[maxn][3];
+
+class Solution {
+public:
+    vector<int> getTriggerTime(vector<vector<int>>& increase, vector<vector<int>>& requirements) {
+        int n_in = increase.size();
+        int n_re = requirements.size();
+        vector<int> res(n_re,-1);
+        for(int i=0;i<=n_in;i++){
+            if(i==0)
+                for(int j=0;j<=2;j++)
+                    acc[i][j] = 0;
+            else
+                for(int j=0;j<=2;j++)
+                    acc[i][j] = acc[i-1][j] + increase[i-1][j];
+        }
+        for(int i=0;i<n_re;i++){
+            int left = 0,right = n_in;
+            while(left<right){
+                int mid = (left+right)/2;
+                if(acc[mid][0]>=requirements[i][0] && acc[mid][1]>=requirements[i][1] && acc[mid][2]>=requirements[i][2])
+                    right = mid;
+                else
+                    left = mid+1;
+            }
+            if(acc[left][0]>=requirements[i][0] && acc[left][1]>=requirements[i][1] && acc[left][2]>=requirements[i][2])
+                res[i] = left;
+        }
+        return res;
+    }
+};

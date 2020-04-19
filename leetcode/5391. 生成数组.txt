@@ -1,0 +1,26 @@
+// dp[i][j][k] 前i个数字最大值是j,cost为k的情况数
+//dp[i][j][k]分成最大值j是在第i位取到的 和不是在i位取到的两种情况
+const int MOD = 1000000007;
+long long dp[51][102][51];
+class Solution {
+public:
+    int numOfArrays(int n, int m, int k) { 
+        memset(dp,0,sizeof(dp));
+        for(int j=1;j<=m;j++)
+            dp[0][j][1] = 1;
+        for(int i=1;i<n;i++){
+            for(int j=1;j<=m;j++){
+                for(int kk=1;kk<=k;kk++){
+                    for(int j0 = 1;j0<j;j0++) //最大值j是在i位取到的j
+                        dp[i][j][kk] = (dp[i][j][kk]+dp[i-1][j0][kk-1])%MOD;
+                    //最大值j不是在i位取到的
+                    dp[i][j][kk] = (dp[i][j][kk]+dp[i-1][j][kk]*j)%MOD;
+                }
+            }
+        }
+        int res = 0;
+        for(int j=1;j<=m;j++)
+            res = (res + dp[n-1][j][k])%MOD;
+        return res;
+    }
+};

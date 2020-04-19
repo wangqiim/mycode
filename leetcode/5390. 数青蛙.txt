@@ -1,0 +1,46 @@
+const int maxn = 100005;
+int acc[maxn][5];
+
+int c2i(char c){
+    if(c=='c') return 0;
+    if(c=='r') return 1;
+    if(c=='o') return 2;
+    if(c=='a') return 3;
+    if(c=='k') return 4;
+    return -1;
+}
+
+class Solution {
+public:
+    int minNumberOfFrogs(string croakOfFrogs) {
+        int res = 0;
+        int n = croakOfFrogs.size();
+        for(int j=0;j<5;j++)
+            acc[0][j] = 0;
+        for(int i=0;i<n;i++){
+            int c = c2i(croakOfFrogs[i]);
+            if(i==0){
+                acc[i][c]++;
+                if(c!=0){
+                    res = -1;
+                    break;
+                }
+            }else{
+                for(int j=0;j<5;j++)
+                    acc[i][j] = acc[i-1][j];
+                acc[i][c]++;
+                if(c!=0){
+                    acc[i][c-1]--;
+                    if(acc[i][c-1]<0){
+                        res = -1;
+                        break;
+                    }
+                }
+            }
+            res = max(res,acc[i][0]+acc[i][1]+acc[i][2]+acc[i][3]);
+        }
+        if(acc[n-1][0]||acc[n-1][1]||acc[n-1][2]||acc[n-1][3])
+            res = -1;
+        return res;
+    }
+};

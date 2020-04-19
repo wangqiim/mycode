@@ -1,0 +1,40 @@
+const int maxn=1000006;
+const int inf = 0x7ffffff;
+int ds[maxn];
+int n;
+queue<int> que;
+void bfs(vector<int>& jump){
+    n = jump.size();
+    while(!que.empty()) que.pop();
+    int bound = 0;  //ds[0~bound]距离都被更新了
+    for(int i=0;i<=n;i++) ds[i] = inf;
+    ds[0] = 0;
+    que.push(0);
+    while(!que.empty()){
+        int u = que.front();
+        que.pop();
+        if(ds[u])
+        for(int i=bound+1;i<u;i++){
+            if(ds[i]!=inf) continue;    //防止被错误刷新
+            ds[i] = ds[u]+1;
+            que.push(i);
+        }
+        bound = max(bound,u);
+        if(u+jump[u]>=n){
+            ds[n] = ds[u]+1;
+            break;
+        }else if(ds[u+jump[u]]==inf){
+            ds[u+jump[u]] = ds[u]+1;
+            que.push(u+jump[u]);
+        }
+    }
+    return;
+}
+
+class Solution {
+public:
+    int minJump(vector<int>& jump) {
+        bfs(jump);
+        return ds[n];
+    }
+};

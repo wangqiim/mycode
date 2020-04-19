@@ -1,0 +1,42 @@
+class Solution {
+public:
+    queue<char> nums;
+    queue<char> letter;
+    string reformat(string s) {
+        int n = s.size();
+        string res = "";
+        for(int i=0;i<n;i++){
+            if('0'<=s[i] && s[i]<='9'){
+                nums.push(s[i]);
+            }else{
+                letter.push(s[i]);
+            }
+        }
+        int nn = nums.size();
+        int nl = letter.size();
+        if(abs(nn-nl)>1)
+            return res;
+        if(nn>=nl){
+            for(int i=0;i<n;i++){
+                if(i%2==0){
+                    res.push_back(nums.front());
+                    nums.pop();
+                }else{
+                    res.push_back(letter.front());
+                    letter.pop();
+                }
+            }
+        }else{
+            for(int i=0;i<n;i++){
+                if(i%2==0){
+                    res.push_back(letter.front());
+                    letter.pop();
+                }else{
+                    res.push_back(nums.front());
+                    nums.pop();
+                }
+            }
+        }
+        return res;
+    }
+};

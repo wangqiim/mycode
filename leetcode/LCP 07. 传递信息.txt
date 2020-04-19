@@ -1,0 +1,20 @@
+int dp[10][6];    //dp[i][j]第j轮传给i的方案数
+
+class Solution {
+public:
+    int numWays(int n, vector<vector<int>>& relation, int k) {
+        int size = relation.size();
+        for(int i=0;i<n;i++)
+            for(int j=0;j<=k;j++)
+                dp[i][j] = 0;
+        dp[0][0] = 1;
+        for(int i=0;i<k;i++){  //i轮
+            for(int j=0;j<n;j++){    //每个点
+                for(int u=0;u<size;u++) if(j==relation[u][0]){  //刷新第dp[][i+1]
+                    dp[relation[u][1]][i+1] += dp[j][i];
+                }
+            }
+        }
+        return dp[n-1][k];
+    }
+};

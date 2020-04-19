@@ -1,0 +1,24 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+pair<double,double> solve(TreeNode *rt){    //rt结点运行完的最小时间和总时间
+    if(!rt) return {0.0,0.0};
+    pair<double,double> left = solve(rt->left);
+    pair<double,double> right = solve(rt->right);
+    pair<double,double> res;
+    res.first = max(max(left.first,right.first),(left.second+right.second)/2) + rt->val;
+    res.second = left.second+right.second+rt->val;
+    return res;
+}
+class Solution {
+public:
+    double minimalExecTime(TreeNode* root) {
+        return solve(root).first;
+    }
+};
