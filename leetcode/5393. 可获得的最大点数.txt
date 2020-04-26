@@ -1,0 +1,21 @@
+const int maxn = 100005;
+int acc[maxn];
+class Solution {
+public:
+    int maxScore(vector<int>& cardPoints, int k) {
+        int n = cardPoints.size();
+        int sum = 0;
+        for(int i=0;i<n;i++){
+            sum += cardPoints[i];
+            acc[i] = sum;
+        }
+        int res;
+        int t = n-k;
+        if(t==0) return acc[n-1];
+        for(int i=0;i+t-1<n;i++){
+            if(i==0) res = acc[i+t-1];
+            else res = min(res,acc[i+t-1]-acc[i-1]);
+        }
+        return acc[n-1] - res;
+    }
+};

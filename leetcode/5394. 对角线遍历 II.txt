@@ -1,0 +1,25 @@
+vector<pair<int,int>> loc;
+bool cmp(pair<int,int>& a,pair<int,int>& b){
+    int s1 = a.first + a.second;
+    int s2 = b.first + b.second;
+    if(s1==s2) return a.first>b.first;
+    else return s1<s2;
+}
+class Solution {
+public:
+    vector<int> findDiagonalOrder(vector<vector<int>>& nums) {
+        vector<int> res;
+        loc.clear();
+        int row = nums.size();
+        for(int i=0;i<row;i++){
+            int col = nums[i].size();
+            for(int j=0;j<col;j++)
+                loc.push_back(make_pair(i,j));
+        }
+        sort(loc.begin(),loc.end(),cmp);
+        int n = loc.size();
+        for(int i=0;i<n;i++)
+            res.push_back(nums[loc[i].first][loc[i].second]);
+        return res;
+    }
+};

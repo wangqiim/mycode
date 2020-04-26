@@ -1,0 +1,21 @@
+int acc[502];  //前缀'1'和
+
+class Solution {
+public:
+    int maxScore(string s) {
+        int n = s.size();
+        int ans = 0;
+        for(int i=0;i<n;i++)
+            if(i)
+                acc[i] = acc[i-1] + s[i]-'0';
+            else
+                acc[i] = s[i] - '0';
+        int left,right;
+        for(int i=0;i<n-1;i++){
+            left = i + 1 - acc[i];    //0的个数
+            right = acc[n-1] - acc[i];
+            ans = max(left+right,ans);
+        }
+        return ans;
+    }
+};

@@ -1,0 +1,21 @@
+class Solution {
+public
+    int constrainedSubsetSum(vectorint& nums, int k) {
+        int n = nums.size();
+        int res = nums[0];
+        dequeint que; 存索引
+        vectorint dp(n);  dp[i] 表示以i结尾的满足条件的最大子序列和
+        for(int i = 0; i  n; i++){
+            if(!que.empty() && i - que.front()  k) que.pop_front();
+            if(que.empty())
+                dp[i] = nums[i];
+            else 
+                dp[i] = max(0,dp[que.front()]) + nums[i];
+            while(!que.empty() && dp[que.back()] = dp[i])
+                que.pop_back(); 
+            que.push_back(i);
+            res = max(res, dp[i]);
+        }
+        return res;
+    }
+};

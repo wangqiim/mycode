@@ -1,0 +1,20 @@
+const int maxn = 1000006;
+int dp[5][maxn];
+//dp[i][j] = dp[i-1][j] + dp[i-1][j-nums[i]];
+class Solution {
+public:
+    int waysToChange(int n) {
+        int nums[5] = {0,25,10,5,1};
+        int MOD = 1000000007;
+        for(int i=0;i<=4;i++)
+            for(int j=0;j<=n;j++)
+                dp[i][j] = 0;
+        for(int i=0;i<=4;i++)
+            dp[i][0] = 1;
+        for(int i=1;i<=4;i++)
+            for(int j=1;j<=n;j++)
+                if(j>=nums[i])
+                    dp[i][j] = (dp[i-1][j] + dp[i][j-nums[i]])%MOD;
+        return dp[4][n];
+    }
+};
