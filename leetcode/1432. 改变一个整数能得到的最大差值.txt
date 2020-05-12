@@ -1,0 +1,45 @@
+class Solution {
+public:
+    int maxDiff(int num){
+        int digit[10]={0};
+        int digit2[10] = {0};
+        int mx = 0;
+        int mn = 0;
+        int t = num;
+        int cnt = 0;
+        while(t){
+            digit2[cnt] = t % 10;
+            digit[cnt++] = t % 10;
+            t /= 10;
+        }
+
+        for(int i = cnt - 1; i >= 0; i--){
+            if(digit[i] != 9){
+                for(int j = 0; j < cnt; j++)
+                    digit[j] = (digit[j] == digit[i]? 9: digit[j]);
+                break;
+            }
+        }
+        for(int i = cnt-1; i>=0; i--)
+            mx = (mx * 10) + digit[i];
+
+        for(int i = cnt - 1; i >= 0; i--){
+            if(i == cnt - 1){
+                if(digit2[i] != 1){
+                    for(int j = 0; j < cnt; j++)
+                        digit2[j] = (digit2[j] == digit2[i]? 1: digit2[j]);
+                    break;
+                }
+            }
+            else if(digit2[i] != 0 && digit2[i] != digit2[cnt - 1]){
+                for(int j = 0; j < cnt; j++)
+                    digit2[j] = (digit2[j] == digit2[i]? 0: digit2[j]);
+                break;
+            }
+        }
+
+        for(int i = cnt-1; i >= 0; i--)
+            mn = (mn * 10) + digit2[i];
+        return mx - mn;
+    }
+};
