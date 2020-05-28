@@ -1,0 +1,25 @@
+const int maxn = 5003;
+string dp[maxn];  //dp[i] 目标值为i取到的最大字符串
+class Solution {
+public:
+    string largestNumber(vector<int>& cost, int target) {
+        string ans = "";
+        string t;
+        for (int i = 0; i <= target; i++) {
+            dp[i] = "";
+            for (int j = 1; j <= 9; j++) {
+                if(i - cost[j - 1] < 0) continue;
+                if((i - cost[j - 1] != 0) && (dp[i - cost[j - 1]] == ""))
+                    continue;
+                t = "";
+                t.push_back('0' + j);
+                t += dp[i - cost[j - 1]];
+                if (t.size() > dp[i].size() || (t.size() == dp[i].size() && t > dp[i])) 
+                    dp[i] = t;
+            }
+        }
+        if(dp[target] == "")
+            return "0";
+        else return dp[target];
+    }
+};

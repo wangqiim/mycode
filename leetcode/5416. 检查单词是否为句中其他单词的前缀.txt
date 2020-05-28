@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int isPrefixOfWord(string s, string searchWord) {
+        int ans = -2;
+        vector<string> nums;
+        int n = s.size();
+        int nn = searchWord.size();
+        int begin = 0;
+        for (int i = 0; i < n; i++) {
+            if (i == n-1){
+                nums.push_back(s.substr(begin, i - begin + 1));
+                begin = i + 1;
+            } else if(s[i] == ' ') {
+                nums.push_back(s.substr(begin, i - begin));
+                begin = i + 1;
+            }
+        }
+        for (int i = 0; i < nums.size(); i++) {
+            if(nums[i].size() < nn) continue;
+            for (int j = 0; j < nn; j++) {
+                if(nums[i][j] != searchWord[j]) break;
+                if(j == nn - 1) ans = i;
+            }
+            if(ans != -2) break;
+        }
+        return ans + 1;
+    }
+};

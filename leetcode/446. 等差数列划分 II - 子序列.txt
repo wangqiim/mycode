@@ -1,0 +1,21 @@
+typedef long long LL;
+
+class Solution {
+public:
+    int numberOfArithmeticSlices(vector<int>& A) {
+        LL ans = 0LL;
+        int n = A.size();
+        vector<map<LL,int> > cnt(n); //cnt[i] 以A[i]结尾，差为key的等差数列(即使2个数也满足)个数
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                LL diff = (LL)A[i] - (LL)A[j];
+                int sum = 0;
+                if (cnt[j].find(diff) != cnt[j].end())
+                    sum = cnt[j][diff];
+                cnt[i][diff] += sum + 1;
+                ans += sum; //加的时候把长度为2的去掉
+            }
+        }
+        return (int)ans;
+    }
+};
