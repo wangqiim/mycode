@@ -1,0 +1,25 @@
+const int MOD = 1e9 + 7;
+class Solution {
+public:
+    int maxArea(int h, int w, vector<int>& horizontalCuts, vector<int>& verticalCuts) {
+        int n1 = horizontalCuts.size();
+        int n2 = verticalCuts.size();
+        int dh = 0;
+        sort(horizontalCuts.begin(),horizontalCuts.end());
+        sort(verticalCuts.begin(),verticalCuts.end());
+        for (int i = 0; i < n1; i++) {
+            if (i != 0)
+               dh =  max(dh, horizontalCuts[i] - horizontalCuts[i - 1]);
+        }
+        dh = max(dh, horizontalCuts.front() - 0);
+        dh = max(dh, h - horizontalCuts.back());
+        int dv = 0;
+        for (int i = 0; i < n2; i++) {
+            if (i != 0)
+               dv =  max(dv, verticalCuts[i] - verticalCuts[i - 1]);
+        }
+        dv = max(dv, verticalCuts.front() - 0);
+        dv = max(dv, w - verticalCuts.back());
+        return ((long long)dh * dv) % MOD;
+    }
+};

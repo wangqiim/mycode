@@ -1,0 +1,41 @@
+//set<string> vis;
+const int maxn = 2000000;
+int hashmap[maxn];
+
+class Solution {
+public:
+    int s2i(string s) {
+        int ans = 0;
+        int n = s.size();
+        for (int i = 0; i < n; i++) {
+            ans *= 2;
+            if (s[i] == '1')
+                ans += 1;
+        }
+        return ans;
+    }
+    bool hasAllCodes(string s, int k) {
+        //vis.clear();
+        int num = pow(2,k);
+        for (int i = 0; i < num; i++)
+            hashmap[i] = 0;
+        int bound = s.size() - k;
+        int cnt = 0;
+        for (int i = 0; i <= bound; i++) {
+            int t = s2i(s.substr(i, k));
+            if (hashmap[t] == 0) {
+                cnt++;
+                hashmap[t] = 1;
+            }
+            //string t = s.substr(i, k);
+           // if (vis.find(t) == vis.end()) {
+            //    cnt++;
+            //    vis.insert(t);
+            //}
+        }
+        bool ans = true;
+        if (cnt != num)
+            ans = false;
+        return ans;
+    }
+};

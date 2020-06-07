@@ -1,0 +1,39 @@
+const int maxn = 50004;
+vector<int> head[maxn];
+vector<int> head2[maxn];
+int vis[maxn];
+class Solution {
+public:
+    int ans;
+    
+    void dfs(int u) {
+        vis[u] = 1;
+        int n1 = head[u].size();
+        for (int i = 0; i < n1; i++) {
+            if(vis[head[u][i]] == 1) continue;
+            dfs(head[u][i]);
+            ans++;
+        }
+        int n2 = head2[u].size();
+        for (int i = 0; i < n2; i++) {
+            if(vis[head2[u][i]] == 1) continue;
+            dfs(head2[u][i]);
+        }
+    }
+    
+    int minReorder(int n, vector<vector<int>>& edge) {
+        ans = 0;
+        for (int i = 0; i < n; i++){
+            head[i].clear();
+            head2[i].clear();
+            vis[i] = 0;
+        } 
+        int size = edge.size();
+        for (int i = 0; i < size; i++) {
+            head[edge[i][0]].push_back(edge[i][1]);
+            head2[edge[i][1]].push_back(edge[i][0]);
+        }
+        dfs(0);
+        return ans;
+    }
+};
