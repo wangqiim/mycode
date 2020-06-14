@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        vector<int> nums(bloomDay);
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+        int le = 0, ri = n - 1;
+        int mi;
+        while (le < ri) {
+            mi = (le + ri) / 2;
+            int bound = nums[mi];
+            int cnt = 0;    //当前束花已经构成的数量
+            int sum = 0;    //能组成的数量
+            for (int i = 0; i < n; i++) {
+                if (bloomDay[i] <= bound) {
+                    cnt++;
+                    if (cnt == k) {
+                        sum++;
+                        cnt = 0;
+                    }
+                } else 
+                    cnt = 0;
+            }
+            if (sum >= m)
+                ri = mi;
+            else 
+                le = mi + 1;
+        }
+        if ((long long)n < (long long)m * k)
+            return -1;
+        else 
+            return nums[le];
+    }
+};
