@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int mySqrt(int x) {
+        long long le = 0, ri = x;
+        long long mid;
+        while (le < ri) {
+            mid = (le + ri + 1) / 2;
+            if (mid * mid == x) {
+                le = ri = mid;
+            } else if (mid * mid < x) {
+                le = mid;
+            } else {
+                ri = mid - 1;
+            }
+        }
+        return le;
+    }
+};

@@ -1,0 +1,13 @@
+const int maxn = 1000;
+int nums[maxn];
+class Solution {
+public:
+    int xorOperation(int n, int start) {
+        for (int i = 0; i < n; i++)
+            nums[i] = start + i * 2;
+        int ans = nums[0];
+        for (int i = 1; i < n; i++)
+            ans = ans ^ nums[i];
+        return ans;
+    }
+};

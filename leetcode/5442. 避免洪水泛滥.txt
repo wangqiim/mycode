@@ -1,0 +1,44 @@
+map<int, int> mp;   //mp[i] = j;//i之前遇到了，j为索引
+vector<int> nums;  //存空的天数
+class Solution {
+public:
+    vector<int> avoidFlood(vector<int>& rains) {
+        mp.clear();
+        nums.clear();
+        int n = rains.size();
+        vector<int> ans(n,1);
+        bool flag = true;
+        for (int i = 0; i < n; i++) {
+            if (rains[i] == 0) {
+                nums.push(i + 1);
+            } else {
+                if (mp[rains[i]] == 0) {
+                    mp[rains[i]] = i + 1;   //第i+1天被填上了
+                } else {
+                    if (st.empty()) {
+                        flag = false;
+                        break;
+                    } else {
+                        if (st.top() < mp[rains[i]]) {
+                            flag = false;
+                            break;
+                        } else {
+                            ans[st.top() - 1] = rains[i];
+                            mp[rains[i]] = 0;
+                            st.pop();
+                        }
+                    }
+                }
+            }
+        }
+        if (flag) {
+            for (int i = 0; i< n; i++) {
+                if (rains[i] != 0)
+                    ans[i] = -1;
+            }
+        }
+        else 
+            ans.clear();
+        return ans;
+    }
+};

@@ -1,0 +1,39 @@
+map<string, map<int, int> > mp;    //first:name, second->second->first:
+map<string, int> cnt; //计数
+class Solution {
+public:
+    int str2int(string s) {
+        int ans = 0;
+        int n = s.size();
+        for (int i = 0; i < n; i++) 
+            ans  = ans * 10 + s[i] - '0';
+        return ans;
+    }
+    
+    vector<string> getFolderNames(vector<string>& names) {
+        int n = names.size();
+        vector<string> ans; //结果
+        for (int i = 0; i < n; i++) {
+            bool flag = false;
+            int no;
+            int le, ri;
+            if (names[i].back == ')') {
+                ri = names.size() - 2;
+                for (int j = names.size() - 2; j >= 0; j--) {
+                    if (names[j] == '(' && j != nums.size() - 2) {
+                        le = j + 1;
+                        flag = true;
+                    } else if (names[j] >= '0' && names[j] <= '9') {
+                        continue;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            if (flag)
+                no = str2int(s.substr(le, ri - le + 1));
+            if (mp.count())
+        }
+
+    }
+};

@@ -1,0 +1,75 @@
+const int maxn = 102;
+const int maxm = 202;
+
+int fa[maxn];
+
+int findfa(int x) {
+    if(fa[x] != x)
+        fa[x] = findfa(fa[x]);
+    return fa[x];
+}
+
+class Solution {
+public:
+    int solve1(int& n, vector<vector<int>>& edges, int del) {   //不包括del条边
+        int ans = 0;
+        int m = edges.size();
+        for (int i = 0; i < n; i++) fa[i] = i;
+        for (int i = 0; i < m; i++) {
+            if(edges[i][3] == del) continue;
+            int w = edges[i][0];
+            int u = edges[i][1];
+            int v = edges[i][2];
+            u = findfa(u); v = findfa(v);
+            if (u != v) {
+                fa[u] = v;
+                ans += w;
+            }
+        }
+        return ans;
+    }
+    
+    int solve2(int& n, vector<vector<int>>& edges, int add) {   //一定包括add条边
+        int ans = 0;
+        int m = edges.size();
+        for (int i = 0; i < n; i++) fa[i] = i;
+        for (int i = 0; i < m; i++) {
+            if (edges[i][3] == add) {
+                ans += edges[i][0];
+                fa[findfa(edges[i][1])] = fa[findfa(edges[i][2])];
+                break;
+            }
+        }
+        for (int i = 0; i < m; i++) {
+            int w = edges[i][0];
+            int u = edges[i][1];
+            int v = edges[i][2];
+            u = findfa(u); v = findfa(v);
+            if (u != v) {
+                fa[u] = v;
+                ans += w;
+            }
+        }
+        return ans;
+    }
+    
+    vector<vector<int>> findCriticalAndPseudoCriticalEdges(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> res(2);
+        int m = edges.size();   //边的数量
+        for (int i = 0; i < m; i++) {
+            swap(edges[i][0],edges[i][2]);
+            edges[i].push_back(i);
+        }
+        sort(edges.begin(), edges.end());
+        int mn = solve1(n, edges, -1);
+        for (int i = 0; i < m; i++) {
+            if (mn != solve1(n, edges, i))
+                res[0].push_back(i); //关键边
+            else{
+                if (mn == solve2(n, edges, i))  //i不是伪关键边
+                    res[1].push_back(i);
+            }
+        }
+        return res;
+    }
+};

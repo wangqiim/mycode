@@ -1,0 +1,25 @@
+#define PIII pair<int, pair<int, int>>
+#define MPIII(x,y,z) make_pair((x),make_pair((y),(z)))
+class Solution {
+public:
+    vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
+        vector<vector<int> > ans;
+        int n1 = nums1.size();
+        int n2 = nums2.size();
+        if (n1 == 0 || n2 == 0)
+            return ans;
+        k = min(k, n1 * n2);
+        //.first:和 .second.first在nums1中的索引,.second.second在num2中的索引
+        priority_queue<PIII, vector<PIII>, greater<PIII> >  pq;
+        for (int i = 0; i < n1; i++)
+            pq.push(MPIII(nums1[i] + nums2[0], i , 0));
+        for (int i = 0; i < k; i++) {
+            PIII t = pq.top();
+            pq.pop();
+            ans.push_back({nums1[t.second.first], nums2[t.second.second]});
+            if (t.second.second + 1 < n2)
+                pq.push(MPIII(nums1[t.second.first] + nums2[t.second.second + 1], t.second.first, t.second.second + 1));
+        }
+        return ans;
+    }
+};
