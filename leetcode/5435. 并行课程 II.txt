@@ -1,0 +1,45 @@
+int dp[1<<15];
+int chk[15];    //chk[i] 课程i的前驱课 （二进制1表示是，0表示不是）
+
+class Solution {
+public:
+    void dfs(int x, int m, int k, int v, int s, vector<int>& course){   
+        //dfs枚举子集
+        //x:判断course中的第i门课
+        //m:可选课程的数量
+        //k:本轮最多选择的课程
+        //v:到达状态s的步数
+        //s:当前状态,course:可选课程
+        if (m - x < k) return;  //剩下的全选也不够了
+        if (x >= m || k == 0){
+            if (dp[s] == -1 || dp[s] > v) dp[s] = v;
+        }else{
+            dfs(x + 1, m, k - 1, v, s | (1<<course[x]), course);
+            dfs(x + 1, m, k, v, s, course);
+        }
+    }
+    
+    int minNumberOfSemesters(int n, vector<vector<int>>& dependencies, int k) {
+        memset(dp, -1, sizeof(dp));
+        dp[0] = 0;
+        int lim = 1 << n;
+        for (int i = 0; i < n; i++) chk[i] = 0;
+        for (auto& e: dependencies){
+            int x = e[0] - 1, y = e[1] - 1;
+            chk[y] = chk[y] | (1<<x);
+        }
+        vector<int> avai;   //可选课
+        for (int s = 0; s < lim; s++){  //初始状态
+            if (dp[s] == -1) continue;
+            avai.clear();
+            for (int i = 0; i < n; i++){
+                if (((s>>i) & 1) == 1) continue;    //去掉s中已经上过的课
+                if ((s & chk[i]) != chk[i]) continue;   //chk[i]中有课未上过
+                avai.push_back(i);
+            }
+            int m = avai.size();
+            dfs(0, m, min(m, k), dp[s] + 1, s, avai);
+        }
+        return dp[lim - 1];
+    }
+};
