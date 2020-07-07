@@ -1,0 +1,28 @@
+const int maxn = 152;
+
+class Solution {
+public:
+    int sum[maxn][maxn];
+    int g[maxn][maxn];
+    int numSubmat(vector<vector<int>>& mat) {
+        int n = mat.size(), m = mat[0].size();	
+        for (int i = 0; i <= n; i++) 
+            for (int j = 0; j <= m; j++) 
+                g[i][j] = 0;
+        for (int i = 0; i < n; i++) 
+            for (int j = 0; j < m; j++)
+			    if (mat[i][j]) g[i+1][j+1] = 1;
+        for (int i = 1; i <= n; i++) for (int j = 1; j <= m; j++)
+           sum[i][j] += sum[i - 1][j] + sum[i][j - 1] - sum[i - 1][j - 1] + g[i][j];
+	    int ans = 0;
+        for (int i = 1; i <= n; i++)
+            for (int j = 1; j <= m; j++)
+                for (int p = 0; p + i <= n; p++)
+                    for (int q = 0;q + j <= m; q++) {
+                        int x = p + i, y = q + j;
+                        int k = sum[x][y] - sum[p][y] - sum[x][q] + sum[p][q];
+                        if (k == i * j) ans++;
+                    }
+        return ans;
+    }
+};
