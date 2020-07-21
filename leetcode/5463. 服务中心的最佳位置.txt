@@ -1,0 +1,64 @@
+const double eps = 1e-10;
+#define sqr(x) ((x)*(x))
+
+int n;
+int dcmp(double a,double b){
+    if (fabs(a-b) < eps) return 0;
+    if (a < b) return -1;
+    return 1;
+}
+struct Node{
+    double x,y;
+    Node(){}
+    Node(double x,double y):x(x),y(y){}
+}p[51];
+
+double judge(double x,double y){
+    double sum = 0;
+    for (int i = 0; i < n; ++i){
+        double xx = p[i].x;
+        double yy = p[i].y;
+        sum += sqrt(sqr(x-xx) + sqr(y-yy));
+    }
+    return sum;
+}
+
+
+class Solution {
+public:
+    double getMinDistSum(vector<vector<int>>& positions) {
+        n = positions.size();
+        for (int i = 0; i < n; ++i) p[i] = Node(positions[i][0], positions[i][1]);
+        double lx = 0, rx = 100;
+        double ly = 0, ry = 100;
+        for (int i = 0; i < 100; ++i){
+            ly = 0, ry = 100;
+            double mx1 = (rx+lx) / 2;
+            double mx2 = (mx1 + rx) / 2;
+            for (int j = 0; j < 100; ++j){
+                double my1 = (ly + ry) / 2;
+                double my2 = (my1 + ry) / 2;
+                double t1 = judge(mx1,my1);
+                double t2 = judge(mx1,my2);
+                if (dcmp(t1,t2) == -1) ry = my2;
+                else ly = my1;
+            }
+            double ny1 = (ly+ry) / 2;
+            ly = 0, ry = 100;
+            for (int j = 0; j < 100; ++j){
+                double my1 = (ly + ry) / 2;
+                double my2 = (my1 + ry) / 2;
+                double t1 = judge(mx2,my1);
+                double t2 = judge(mx2,my2);
+                if (dcmp(t1,t2) == -1) ry = my2;
+                else ly = my1;
+            }
+            double ny2 = (ly+ry) / 2;
+            double nt1 = judge(mx1,ny1), nt2 = judge(mx2,ny2);
+            if (dcmp(nt1,nt2) == -1) rx = mx2;
+            else lx = mx1;
+        }
+        //printf("%.10f %.10f\n",(lx+rx)/2,(ly+ry)/2);
+        return judge((lx+rx)/2, (ly+ry)/2);
+    }
+};

@@ -1,0 +1,65 @@
+typedef pair<double,int> pp;
+const int maxn = 10004;
+const int maxm = 20004;
+bool isvis[maxn];	//每个点是否已经经过 
+double ds[maxn];	//s点到各个点的距离,-1表示不可达 
+double res;
+int s,t;	//起点和终点 
+int n;
+
+struct node{
+	int t;	//目标结点 
+	double w;	//边权
+	node(){}
+	node(int t,double w):t(t),w(w){}
+};
+vector<node> G[maxn];
+
+void dijkstra(){
+	for(int i = 0; i<=n; i++) 
+		isvis[i] = ds[i] = 0;
+	ds[s]=1;
+	priority_queue<pp,vector<pp>,less<pp> > pq;	//大顶堆 
+	pq.push(make_pair(1,s));
+	pp tp;	//tp.first最近距离,tp.second结点 
+	while(!pq.empty()){
+		tp = pq.top();
+		pq.pop();
+		int u = tp.second;	//当前结点 
+		double d = tp.first;	//当前结点距离开始结点的距离
+        //cout <<"(" << u <<","  << d << ")";
+		if(u == t){
+			res = d;
+			return;
+		}
+		if(isvis[u]) continue;	//该点已经被访问过了
+		isvis[u] = true;
+		for(int i = 0; i < G[u].size(); i++){
+			int v = G[u][i].t;	//u->v 有边
+			if(isvis[v] == false && d * G[u][i].w > ds[v]){	//i点尚未访问,并且以u为中介可以使得到i点的距离更小
+				ds[v] = d * G[u][i].w;
+                //cout << ds[v] << endl;
+				pq.push(pp(ds[v], v));
+			}
+		}
+	}
+}
+
+class Solution {
+public:
+    double maxProbability(int nn, vector<vector<int>>& edges, vector<double>& succProb, int start, int end) {
+        res = 0;
+        s = start; t = end; n = nn;
+        for (int i = 0; i <= n; i++) G[i].clear();
+        
+        int ne = edges.size();
+        if(start == end) return 1;
+        if (ne == 0) return -1;
+        for (int i = 0; i < ne; i++) {
+            G[edges[i][0]].push_back(node(edges[i][1], succProb[i]));
+            G[edges[i][1]].push_back(node(edges[i][0], succProb[i]));
+        } 
+        dijkstra();
+        return res;
+    }
+};

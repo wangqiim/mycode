@@ -1,0 +1,34 @@
+class DiningPhilosophers {
+    
+    ReentrantLock[] lock;
+    
+    public DiningPhilosophers() {
+        lock = new ReentrantLock[5];
+        for (int i = 0; i < 5; i++)
+            lock[i] = new ReentrantLock();
+    }
+
+    // call the run() method of any runnable to execute its code
+    public void wantsToEat(int ind,
+                           Runnable pickLeftFork,
+                           Runnable pickRightFork,
+                           Runnable eat,
+                           Runnable putLeftFork,
+                           Runnable putRightFork) throws InterruptedException {
+        //0-先拿左手，4先拿右手，则肯定不会造成死锁
+        int le = ind, ri = (ind + 1) % 5;
+        int mi = Math.min(le, ri);
+        int mx = Math.max(le, ri);
+        lock[mi].lock();
+        lock[mx].lock();
+
+        pickLeftFork.run();
+        pickRightFork.run();
+        eat.run();
+        putLeftFork.run();
+        putRightFork.run();
+
+        lock[mi].unlock();
+        lock[mx].unlock();
+    }
+}
