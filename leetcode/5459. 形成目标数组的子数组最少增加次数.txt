@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int minNumberOperations(vector<int>& target) {
+        int n = target.size();
+        int ans = 0;
+        int mx = 0;
+        int bound = 0;
+        for (int i = 0; i < n; i++) {
+            if (i == 0) {
+                mx = target[i];
+                bound = 0;
+            }else if (i == n - 1) {
+                mx = max(target[i], mx);
+            } else {
+                if (target[i - 1] > target[i] && target[i] <= target[i + 1]) {
+                    ans += mx - bound;
+                    mx = target[i];
+                    bound = target[i];
+                } else
+                    mx = max(mx, target[i]);
+            }
+        }
+        ans += mx - bound;
+        return ans;
+    }
+};

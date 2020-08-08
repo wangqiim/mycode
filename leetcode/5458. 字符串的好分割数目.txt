@@ -1,0 +1,31 @@
+const int maxn = 100005;
+int le[maxn];
+int ri[maxn];
+map<char, int> leMap;
+map<char, int> riMap;
+class Solution {
+public:
+    int numSplits(string s) {
+        int ans = 0;
+        int n = s.size();
+        leMap.clear();
+        riMap.clear();
+        int cnt = 0;
+        for (int i = 0; i < n; i++) {
+            if(leMap[s[i]]++ == 0)
+                cnt++;
+            le[i] = cnt;
+        }
+        cnt = 0;
+        for (int i = n - 1; i >= 0; i--) {
+            if(riMap[s[i]]++ == 0)
+                cnt++;
+            ri[i] = cnt;    
+        }
+        for (int i = 0; i < n - 1; i++) {
+            if (le[i] == ri[i + 1])
+                ans++;
+        }
+        return ans;
+    }
+};

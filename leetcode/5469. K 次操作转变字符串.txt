@@ -1,0 +1,20 @@
+class Solution {
+public:
+    bool canConvertString(string s, string t, int k) {
+        if (s.size() != t.size())
+            return false;
+        int n = s.size();
+        int cnt[26] = {0};
+        for (int i = 0; i < n; i++) {
+            cnt[(26 + t[i] - s[i]) % 26]++;
+        }
+        int ans = 0;
+        for (int i = 1; i <= 25; i++) {
+            ans = max(ans, (cnt[i] - 1) * 26 + i);
+        }
+        if (ans > k)
+            return false;
+        else 
+            return true;
+    }
+};

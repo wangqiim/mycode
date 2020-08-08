@@ -1,0 +1,31 @@
+const int maxn = 100005;
+const int MOD = 1e9 + 7;
+int even[maxn];
+int odd[maxn];
+class Solution {
+public:
+    
+    int numOfSubarrays(vector<int>& arr) {
+        int n = arr.size();
+        if (arr[0] % 2 == 0) {
+            even[0] = 1;
+            odd[0] = 0;
+        } else {
+            odd[0] = 1;
+            even[0] = 0;
+        }
+        long long ans = odd[0];
+        for (int i = 1; i < n; i++) {
+            if ((arr[i] & 1) == 1) {
+                odd[i] = even[i - 1] + 1;
+                even[i] = odd[i - 1];
+                ans += odd[i];
+            } else {
+                odd[i] = odd[i - 1];
+                even[i] = even[i - 1] + 1;
+                ans += odd[i];
+            }
+        }
+        return (int)(ans % MOD);
+    }
+};
