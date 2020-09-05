@@ -1,0 +1,35 @@
+const int maxn = 102;   //100个城市
+const int maxf = 202;   //最多剩200格汽油
+const int mod = 1e9 + 7;
+int dp[maxn][maxf]; //第i个城市,还剩下j格油的情况
+class Solution {
+public:
+    int countRoutes(vector<int>& locations, int start, int finish, int fuel) {
+        int n = locations.size();
+        for (int f = 0; f <= fuel; f++) {
+            for (int i = 0; i < n; i++) {
+                dp[i][f] = 0;
+            }
+        }
+        dp[start][fuel] = 1;
+        for (int f = fuel; f >= 0; f--) {
+            for (int i = 0; i < n; i++) {
+                if (dp[i][f] != 0) {    //该位置能到达
+                    for (int j = 0; j < n; j++) {
+                        if (j == i) continue;
+                        int ff = f - abs(locations[i] - locations[j]);
+                        if (ff < 0) continue;
+                        dp[j][ff] += dp[i][f];
+                        dp[j][ff] %= mod;
+                    }
+                }
+            }
+        }
+        int ans = 0;
+        for (int f = 0; f <= fuel; f++) {
+            ans += dp[finish][f];
+            ans %= mod;
+        }
+        return ans;
+    }
+};

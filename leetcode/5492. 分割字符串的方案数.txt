@@ -1,0 +1,57 @@
+const int maxn = 100005;
+const int MOD = 1000000007;
+int acc[maxn];
+class Solution {
+public:
+    int numWays(string s) {
+        int ans = 0;
+        int n = s.size();
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            if (i == 0) {
+                if (s[i] == '1') {
+                    sum = 1;
+                    acc[i] = 1;
+                } else {
+                    sum = 0;
+                    acc[i] = 0;
+                }
+                continue;
+            }
+            if (s[i] == '1') {
+                sum++;
+                acc[i] = acc[i - 1] + 1;
+            } else {
+                acc[i] = acc[i - 1];
+            }
+        }
+        if (sum % 3 != 0)
+            return 0;
+        if (sum == 0)
+            return (long long)(n - 1) * (n - 2) / 2 * 1 % MOD;
+        int le = sum / 3;
+        int start = -1, end = -1;
+        for (int i = 0; i < n; i++) {
+            if (acc[i] == le && start == -1) {
+                start = i;
+            } else if (acc[i] > le && end == -1) {
+                end = i;
+                break;
+            }
+        }
+        int ans1 = end - start;
+        ans %= MOD;
+        int start2 = -1, end2 = -1;
+        for (int i = end; i < n; i++) {
+            if (acc[i] == 2 * le && start2 == -1) {
+                start2 = i;
+            } else if (acc[i] > 2 * le && end2 == -1) {
+                end2 = i;
+                break;
+            }
+        }
+        int ans2 = end2 - start2;
+        ans2 %= MOD;
+        return (long long)(ans1) * ans2 % MOD;
+    }
+};

@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int maxDistance(vector<int>& position, int m) {
+        int n = position.size();
+        sort(position.begin(), position.end());
+        int le = 1, ri = position[n - 1] - position[0];
+        while (le < ri) {
+            int mid = (le + ri + 1) / 2;    //间隔
+            int cnt = 0, pre = -1e9 + 1;
+            for (int i = 0; i < n; i++) {
+                if (position[i] - pre >= mid) {
+                    cnt++;
+                    pre = position[i];
+                }
+            }
+            if (cnt < m) {
+                ri = mid - 1;
+            } else {
+                le = mid;
+            }
+        }
+        return le;
+    }
+};
