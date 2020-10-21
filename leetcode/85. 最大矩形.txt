@@ -1,0 +1,89 @@
+class Solution {
+public:
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        int m = matrix.size();
+        if (m == 0) return 0;
+        int n = matrix[0].size();
+        if (n == 0) return 0;
+        vector<vector<int> > high(m, vector<int>(n, 0));
+        vector<int> le_first_low(n);
+        vector<int> ri_first_low(n);
+        for (int j = 0; j < n; j++) {
+            int sum = 0;
+            for (int i = 0; i < m; i++) {
+                if (matrix[i][j] == '1') {
+                    sum++;
+                    high[i][j] = sum;
+                } else
+                    sum =0;
+            }
+        }
+        int mx = 0;
+        stack<int> st;  //单调栈
+        for (int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                while (!st.empty() && (high[i][j] < high[i][st.top()])) {
+                    ri_first_low[st.top()] = j;
+                    st.pop();
+                }
+                st.push(j);
+            }
+            while (!st.empty()) {
+                ri_first_low[st.top()] = n;
+                st.pop();
+            }
+
+            for(int j = n - 1; j >= 0; j--) {
+                while (!st.empty() && (high[i][j] < high[i][st.top()])) {
+                    le_first_low[st.top()] = j;
+                    st.pop();
+                }
+                st.push(j);
+            }
+            while (!st.empty()) {
+                le_first_low[st.top()] = -1;
+                st.pop();
+            }
+            
+            for (int j = 0; j < n; j++)
+                mx = max(mx, (ri_first_low[j] - le_first_low[j] - 1) * high[i][j]);
+        }
+        return mx;
+    }
+    
+    // 矩阵前缀和暴力 O((mn)^2) TLE
+    // int maximalRectangle(vector<vector<char>>& matrix) {
+    //     int m = matrix.size();
+    //     if (m == 0) return 0;
+    //     int n = matrix[0].size();
+    //     if (n == 0) return 0;
+    //     vector<vector<int> > acc(m, vector<int>(n, 0));
+    //     for (int i = 0; i < m; i++) {
+    //         for (int j = 0; j < n; j++) {
+    //             if (j == 0) acc[i][j] = (matrix[i][j] == '1'? 1 : 0);
+    //             else acc[i][j] = acc[i][j - 1] + (matrix[i][j] == '1'? 1 : 0);
+    //         }
+    //     }
+    //     for (int i = 1; i < m; i++) {
+    //         for (int j = 0; j < n; j++) {
+    //             acc[i][j] += acc[i - 1][j];
+    //         }
+    //     }
+    //     int mx = 0;
+    //     for (int i = 0; i < m; i++) {
+    //         for (int j = 0; j < n; j++) {
+    //             for (int x = i; x < m; x++) {
+    //                 for (int y = j; y < n; y++) {
+    //                     int sum = acc[x][y];
+    //                     if (i != 0) sum -= acc[i - 1][y];
+    //                     if (j != 0) sum -= acc[x][j - 1];
+    //                     if (i != 0 && j != 0) sum += acc[i - 1][j - 1];
+    //                     if (sum == (x - i + 1) * (y - j + 1))
+    //                         mx = max(mx, sum);
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return mx;
+    // }
+};

@@ -1,0 +1,41 @@
+struct Node {
+    int end_time;
+    int ind;
+    bool operator<(const Node &b) const{
+        return end_time > b.end_time;
+    }
+};
+
+set<int> st;
+priority_queue<Node> pq;
+vector<int> cnt;
+class Solution {
+public:
+    vector<int> busiestServers(int k, vector<int>& arrival, vector<int>& load) {
+        int n = arrival.size();
+        st.clear();
+        while (!pq.empty()) pq.pop();
+        cnt = vector<int>(k, 0);
+
+        for (int i = 0; i < k; i++) st.insert(i);
+        for (int i = 0; i < n; i++) {
+            int t = i % k;
+            while (!pq.empty() && pq.top().end_time <= arrival[i]) {
+                st.insert(pq.top().ind);
+                pq.pop();
+            }
+            if (st.empty()) continue;
+            set<int>::iterator it = st.lower_bound(t);
+            if (it == st.end())  it = st.lower_bound(-1);
+            cnt[*it]++;
+            pq.push({arrival[i] + load[i], *it});
+            st.erase(*it);
+        }
+        int mx = 0;
+        for (int i = 0; i < k; i++) mx = max(cnt[i], mx);
+        vector<int> ans;
+        for (int i = 0; i < k; i++) if (mx == cnt[i])
+            ans.push_back(i);
+        return ans;
+    }
+};

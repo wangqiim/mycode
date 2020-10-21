@@ -1,0 +1,42 @@
+int dp[13][1 << 12];
+
+class Solution {
+public:
+    int connectTwoGroups(vector<vector<int>>& cost) {
+        int n = cost.size(), m = cost[0].size();
+        int lim = 1 << m;
+        for (int i = 0; i <= n; i++)
+            for (int s = 0; s < lim; s++)
+                dp[i][s] = -1;
+        dp[0][0] = 0;
+        for (int i = 1; i <= n; i++)
+            for (int s = 0; s < lim; s++) {
+                if (dp[i - 1][s] == -1) continue;
+                int rs = (~s) & (lim -1);
+                for (int sub = rs; sub; sub = (sub - 1) & rs) {
+                    int sum = 0;
+                    for (int k = 0; k < m; k++) {
+                        if (((sub >> k) & 1) == 1)
+                            sum += cost[i - 1][k];
+                    }
+                    int ss = s | sub;
+                    if (dp[i][ss] == -1)
+                        dp[i][ss] = dp[i - 1][s] + sum;
+                    else
+                        dp[i][ss] = min(dp[i][ss], dp[i - 1][s] + sum);
+                }
+                
+                if (s == 0) continue;
+                int mi = 0x7fffffff;
+                for (int k = 0; k < m; k++)
+                    if (((s >> k) & 1) == 1)
+                        mi = min(mi, cost[i - 1][k]);
+
+                if (dp[i][s] == -1)
+                    dp[i][s] = dp[i - 1][s] + mi;
+                else
+                    dp[i][s] = min(dp[i][s], dp[i - 1][s] + mi);
+                }
+        return dp[n][(1 << m) - 1];
+    }
+};

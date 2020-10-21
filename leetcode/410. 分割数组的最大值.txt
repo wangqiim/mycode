@@ -2,20 +2,55 @@ long long dp[51][1001];   //dp[i][j]前j个数组成i组的最大值
 long long acc[1001];
 class Solution {
 public:
-    int splitArray(vector<int>& nums, int m) {
+    /* 方法1：dp*/
+    // int splitArray(vector<int>& nums, int m) {
+    //     int n = nums.size();
+    //     acc[0] = 0;
+    //     for(int i=0;i<n;i++)
+    //         acc[i+1] = acc[i]+nums[i];
+    //     for(int j=1;j<=n;j++)
+    //         dp[1][j] =  acc[j];
+    //     for(int i=2;i<=m;i++){
+    //         for(int j=i;j<=n;j++){
+    //             dp[i][j] = 0x7fffffffffffffff;
+    //             for(int k=1;j-k>=i-1;k++) //第i组拿了k个
+    //                 dp[i][j] = min(dp[i][j],max(dp[i-1][j-k],acc[j]-acc[j-k]));
+    //         }
+    //     }
+    //     return dp[m][n];
+    // }
+
+    /* 方法二：二分答案 */
+    bool check(vector<int>& nums, int bound, int m) {
         int n = nums.size();
-        acc[0] = 0;
-        for(int i=0;i<n;i++)
-            acc[i+1] = acc[i]+nums[i];
-        for(int j=1;j<=n;j++)
-            dp[1][j] =  acc[j];
-        for(int i=2;i<=m;i++){
-            for(int j=i;j<=n;j++){
-                dp[i][j] = 0x7fffffffffffffff;
-                for(int k=1;j-k>=i-1;k++) //第i组拿了k个
-                    dp[i][j] = min(dp[i][j],max(dp[i-1][j-k],acc[j]-acc[j-k]));
+        int seg = 1;
+        int seg_sum = 0;
+        for (int i = 0; i < n; i++) {
+            if (nums[i] + seg_sum > bound) {
+                if (nums[i] > bound)
+                    return false;
+                seg_sum = nums[i];
+                seg ++;
+            } else {
+                seg_sum += nums[i];
             }
         }
-        return dp[m][n];
+        if (seg <= m) return true;
+        else return false;
+    }
+    int splitArray(vector<int>& nums, int m) {
+        int n = nums.size();
+        int sum = 0;
+        for (int i = 0; i < n; i++) sum += nums[i];
+        int le = 1, ri = sum;
+        while (le < ri) {
+            int mid = (le + ri) / 2;
+            if (check(nums, mid, m)) {
+                ri = mid;
+            } else {
+                le = mid + 1;
+            }
+        }
+        return le;
     }
 };
